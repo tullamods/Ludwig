@@ -20,7 +20,7 @@ local function onPartialMatch(match)
 	return '[[' .. match
 end
 
-_G['ChatFrameEditBox']:HookScript('OnChar', function(self, ...)
+_G['ChatFrame1EditBox']:HookScript('OnChar', function(self, ...)
 	local self = WIM and WIM.EditBoxInFocus or self 
 
 	local text = self:GetText()
