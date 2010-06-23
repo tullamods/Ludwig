@@ -96,12 +96,13 @@ end
 --[[ Item Button ]]--
 
 function LudwigUI_OnItemClick(self)
+	local itemLink = LudwigDB:GetItemLink(self:GetID())
 	if IsShiftKeyDown() then
-		ChatFrameEditBox:Insert(LudwigDB:GetItemLink(self:GetID()))
+		ChatFrame_OpenChat(itemLink)
 	elseif IsControlKeyDown() then
-		DressUpItemLink(LudwigDB:GetItemLink(self:GetID()))
+		DressUpItemLink(itemLink)
 	else
-		SetItemRef(LudwigDB:GetItemLink(self:GetID()))
+		SetItemRef(itemLink)
 	end
 end
 
