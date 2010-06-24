@@ -98,7 +98,9 @@ end
 function LudwigUI_OnItemClick(self)
 	local itemLink = LudwigDB:GetItemLink(self:GetID())
 	if IsShiftKeyDown() then
-		ChatFrame_OpenChat(itemLink)
+		if ChatEdit_GetActiveWindow() then
+			ChatEdit_InsertLink(itemLink)
+		end
 	elseif IsControlKeyDown() then
 		DressUpItemLink(itemLink)
 	else
