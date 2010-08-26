@@ -20,9 +20,10 @@ local function onPartialMatch(match)
 	return '[[' .. match
 end
 
-local editBox = _G['ChatFrame1EditBox'] or _G['ChatFrameEditBox']
-editBox:HookScript('OnChar', function(self, ...)
-	local self = WIM and WIM.EditBoxInFocus or self 
+hooksecurefunc(ChatEdit_OnTextChanged, function(self, isUserInput)
+	if not isUserInput then
+		return
+	end
 
 	local text = self:GetText()
 	if text ~= '' then
