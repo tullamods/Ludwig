@@ -20,11 +20,7 @@ local function onPartialMatch(match)
 	return '[[' .. match
 end
 
-hooksecurefunc(ChatEdit_OnTextChanged, function(self, isUserInput)
-	if not isUserInput then
-		return
-	end
-
+local function chatFrame_OnChar(self, ...)
 	local text = self:GetText()
 	if text ~= '' then
 		if text:match('%[%[(.+)%]$') then
@@ -33,5 +29,13 @@ hooksecurefunc(ChatEdit_OnTextChanged, function(self, isUserInput)
 			self:SetText(text:gsub('%[%[(.+)$', onPartialMatch))
 			self:HighlightText(#text, -1)
 		end
+	end
+end
+
+local hookedFrames = {}
+hooksecurefunc('ChatEdit_OnTextChanged', function(self, isUserInput)
+	if not hookedFrames[self] then
+		self:HookScript('OnChar', chatFrame_OnChar)
+		hookedFrames[self] = true
 	end
 end)
