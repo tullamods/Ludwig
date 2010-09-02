@@ -9,7 +9,7 @@ LudwigDB = ItemDB
 
 --[[ Constants! ]]--
 
-ItemDB.MAX_ID = 60000 --the maximum number of itemIDs to look through
+ItemDB.MAX_ID = 100000 --the maximum number of itemIDs to look through
 
 
 --[[ Utility Functions ]]--
