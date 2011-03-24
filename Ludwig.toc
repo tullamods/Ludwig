@@ -6,5 +6,3 @@
 
 localization.lua
 slash.lua
-linkerator.lua
-ui.xml

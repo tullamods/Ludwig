@@ -73,20 +73,22 @@ end
 --]]
 
 SlashCmdList['LudwigSlashCOMMAND'] = function(msg)
-	if not msg or msg == '' then
-		toggleGUI()
-	else
-		local cmd = msg:lower():match('%-%-([%w%s]+)')
-		if cmd then
-			if cmd == 'r' then
-				refreshDB()
-			elseif cmd:match('q %d+') then
-				queryItem(cmd:match('q (%d+)'))
-			else
-				print(format(L.UnknownCommand, cmd))
-			end
+	if LoadAddOn('Ludwig_Data') then
+		if not msg or msg == '' then
+			toggleGUI()
 		else
-			listItemsMatching(msg)
+			local cmd = msg:lower():match('%-%-([%w%s]+)')
+			if cmd then
+				if cmd == 'r' then
+					refreshDB()
+				elseif cmd:match('q %d+') then
+					queryItem(cmd:match('q (%d+)'))
+				else
+					print(format(L.UnknownCommand, cmd))
+				end
+			else
+				listItemsMatching(msg)
+			end
 		end
 	end
 end
