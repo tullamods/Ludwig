@@ -9,55 +9,81 @@
 	:GetItemsNamedLike(name)
 		just like the above method, but just searches for names (for linkerator support)
 		
-	:GetItemInfo(id)
-		returns quality, name
+	:GetItemName(id)
+		returns name, colorHex
+		
+	:GetItemLink(id)
 --]]
 
 
 LudwigDB = {}
-local Markers = {'{', '}', '$', '¢'} --, '£'}
+local Markers = {'{', '}', '$', '€'} --, '£'}
 local Caches, Values = {}, {}
-local List, Results = {}, ''
 
 for i, marker in ipairs(Markers) do
-	Markers[marker] = marker..'([^'..marker..']*)'
+	Markers[i] = marker..'([^'..marker..']+)'
 end
 
 
 --[[ API ]]--
 
-function LudwigDB:GetItems(name, quality, class, subClass, slot, minLevel, maxLevel)
-	local terms, level = {class, subClass, slot, quality}, 0
-	Results = Ludwig_Data
-	wipe(List)
+function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
+	local terms = {class, subClass, slot, quality}
+	local results = Ludwig_Data
 	
-	-- Check Caches
-	for i, term in ipairs(terms) do
+	for i, term in pairs(terms) do
+		-- Check Caches
 		if term == Values[i] then
-			Results = Caches[i] or Ludwig_Data
-			level = i
+			results = Caches[i]
+			
 		else
-			break
-		end
-	end
-	
-	-- Search Categories
-	for i = level + 1, #Markers do
-		Results = strmatch(Markers[i], Results)
-		Caches[i] = Results
-	end
-	
-	-- Search Name
-	for id, name in gmatch('(%d+):([^:]*)') do
-		if strmatch(search, name) then
-			tinsert(List, id)
+			-- Search
+			for i = i, 4 do
+				local term = terms[i]
+				if term then
+					local marker = term .. Markers[i]
+					
+					-- Categories
+					if i < 4 then
+						results = strmatch(results, marker)
+						
+					-- Quality
+					else
+						local items = ''
+						for section in gmatch(results, marker) do
+							items = items .. section
+						end
+						results = items
+					end
+					
+					Caches[i] = results
+				end
+			end
 		end
 	end
 	
 	Values = terms
-	return List
+	return self:GetItemsNamedLike(search, results)
 end
 
-function LudwigDB:GetItemInfo(id)
-	return strmatch('(%d+)¢[^¢]*'..id..':([^:]*)', Ludwig_Data)
+function LudwigDB:GetItemsNamedLike(search, source)
+	local search = strlower(search or '')
+	local list = {}
+	
+	for id, name in gmatch(source or Ludwig_Data, '(%d+);([^;]+)') do
+		if strmatch(strlower(name), search) then
+			tinsert(list, id)
+		end
+	end
+	return list
+end
+
+function LudwigDB:GetItemName(id)
+	local quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*'..id..';([^;]+)')
+	return name, select(4, GetItemQualityColor(tonumber(quality)))
+end
+
+function LudwigDB:GetItemLink(id)
+	local name, hex = self:GetItemName(id)
+	return hex..'|Hitem:'..id..'|h['..name..']|h|r'
 end

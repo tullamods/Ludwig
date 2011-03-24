@@ -7,7 +7,7 @@ LWUI_SHOWN, LWUI_STEP = 15, 15
 
 local L = LUDWIG_LOCALS
 local ITEM_WIDTH = 300
-local display, displayChanged --all things to display on the list
+local display --all things to display on the list
 local filter = {}
 local uiFrame
 
@@ -133,12 +133,10 @@ function LudwigUI_UpdateList(changed)
 			button:Hide()
 		else
 			local id = display[index]
-			local quality, name = LudwigDB:GetItemInfo(id)
-			local r, g, b = GetItemQualityColor(quality)
+			local name, hex = LudwigDB:GetItemName(id)
 			
 			button.icon:SetTexture(GetItemIcon(id))
-			button:SetTextColor(r, g, b)
-			button:SetText(name)
+			button:SetText(hex .. name .. '|r')
 			button:SetID(id)
 			button:Show()
 		end
