@@ -3,19 +3,19 @@
 		By João Libório Cardoso (Jaliborc)
 		
 			
-	:GetItems(name, class, subClass, slot, quality, minLevel, maxLevel)
+	:GetItems(name, quality, class, subClass, slot, minLevel, maxLevel)
 		returns an ordered list of the item IDs that match the provided terms
 		
-	:GetNamedItems(name)
-		just like the above method, but just searches names (for linkerator support)
+	:GetItemsNamedLike(name)
+		just like the above method, but just searches for names (for linkerator support)
 		
 	:GetItemInfo(id)
-		returns name and quality
+		returns quality, name
 --]]
 
 
 LudwigDB = {}
-local Markers = {'{', '}', '$', '¢'}--, '£'}
+local Markers = {'{', '}', '$', '¢'} --, '£'}
 local Caches, Values = {}, {}
 local List, Results = {}, ''
 
@@ -26,7 +26,7 @@ end
 
 --[[ API ]]--
 
-function LudwigDB:GetItems(search, class, subClass, slot, quality, minLevel, maxLevel)
+function LudwigDB:GetItems(name, quality, class, subClass, slot, minLevel, maxLevel)
 	local terms, level = {class, subClass, slot, quality}, 0
 	Results = Ludwig_Data
 	wipe(List)
@@ -34,7 +34,7 @@ function LudwigDB:GetItems(search, class, subClass, slot, quality, minLevel, max
 	-- Check Caches
 	for i, term in ipairs(terms) do
 		if term == Values[i] then
-			Results = Caches[i]
+			Results = Caches[i] or Ludwig_Data
 			level = i
 		else
 			break
@@ -59,6 +59,5 @@ function LudwigDB:GetItems(search, class, subClass, slot, quality, minLevel, max
 end
 
 function LudwigDB:GetItemInfo(id)
-	local quality, name = strmatch('(%d+)¢[^¢]*'..id..':([^:]*)', Ludwig_Data)
-	return name, quality
+	return strmatch('(%d+)¢[^¢]*'..id..':([^:]*)', Ludwig_Data)
 end

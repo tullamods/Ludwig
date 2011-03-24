@@ -41,17 +41,11 @@ function LudwigUI_OnLoad(self)
 end
 
 function LudwigUI_OnShow(self)
-	LudwigDB:Refresh()
 	LudwigUI_UpdateList(true)
 end
 
 function LudwigUI_OnHide(self)
 	display = nil
-end
-
-function LudwigUI_Refresh()
-	LudwigDB:Refresh()
-	LudwigUI_UpdateList(true)
 end
 
 function LudwigUI_Reset()
@@ -139,8 +133,12 @@ function LudwigUI_UpdateList(changed)
 			button:Hide()
 		else
 			local id = display[index]
-			button.icon:SetTexture(LudwigDB:GetItemTexture(id))
-			button:SetText(LudwigDB:GetItemName(id, true))
+			local quality, name = LudwigDB:GetItemInfo(id)
+			local r, g, b = GetItemQualityColor(quality)
+			
+			button.icon:SetTexture(GetItemIcon(id))
+			button:SetTextColor(r, g, b)
+			button:SetText(name)
 			button:SetID(id)
 			button:Show()
 		end

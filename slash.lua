@@ -9,8 +9,6 @@
 			prints a list of items matching <name>
 		/lw --q <itemID>
 			queries the game for and displays the link of <itemID>
-		/lw --r
-			forces a database refresh
 --]]
 
 --constants!
@@ -24,7 +22,6 @@ local MAX_RESULTS = 10
 --display all items matching <name> in the chat window
 local function listItemsMatching(name)
 	local startTime = GetTime()
-	LudwigDB:Refresh()
 
 	local results = LudwigDB:GetItems(name)
 	if #results > 0 then
@@ -42,12 +39,6 @@ local function listItemsMatching(name)
 		--print
 		print(format(L.NoMatchingItems, name))
 	end
-end
-
---refresh the item database
-local function refreshDB()
-	LudwigDB:Refresh()
-	print(L.DBRefreshed)
 end
 
 --query and display an item that matches <id>
@@ -79,9 +70,7 @@ SlashCmdList['LudwigSlashCOMMAND'] = function(msg)
 		else
 			local cmd = msg:lower():match('%-%-([%w%s]+)')
 			if cmd then
-				if cmd == 'r' then
-					refreshDB()
-				elseif cmd:match('q %d+') then
+				if cmd:match('q %d+') then
 					queryItem(cmd:match('q (%d+)'))
 				else
 					print(format(L.UnknownCommand, cmd))
