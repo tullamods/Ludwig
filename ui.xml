@@ -136,13 +136,6 @@
 						SetPortraitToTexture(self.icon, "Interface/Icons/INV_Misc_Book_04")
 					</OnLoad>
 				</Scripts>
-
-				<HighlightTexture alphaMode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight">
-					<Size x="78" y="78"/>
-					<Anchors>
-						<Anchor point="CENTER"/>
-					</Anchors>
-				</HighlightTexture>
 			</Button>
 
 			<EditBox name="$parentSearch" autoFocus="false" inherits="InputBoxTemplate">

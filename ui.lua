@@ -151,10 +151,19 @@ function LudwigUI_OnSearchChanged(self, text)
 		if text == '' then
 			text = nil
 		end
-
+		
 		if filter.name ~= text then
-			filter.name = text
-			LudwigUI_UpdateList(true)
+			local timer = .3
+	
+			self:SetScript('OnUpdate', function(self, elapsed)
+				timer = timer - elapsed
+				
+				if timer < 0 then
+					self:SetScript('OnUpdate', nil)
+					filter.name = text
+					LudwigUI_UpdateList(true)
+				end
+			end)
 		end
 	end
 end

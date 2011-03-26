@@ -17,11 +17,11 @@
 
 
 LudwigDB = {}
-local Markers = {'{', '}', '$', '€'} --, '£'}
+local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
 local Caches, Values = {}, {}
 
 for i, marker in ipairs(Markers) do
-	Markers[i] = marker..'([^'..marker..']+)'
+	Matchers[i] = marker..'([^'..marker..']+)'
 end
 
 
@@ -41,17 +41,17 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 			for i = i, 4 do
 				local term = terms[i]
 				if term then
-					local marker = term .. Markers[i]
+					local match = term .. Matchers[i]
 					
 					-- Categories
 					if i < 4 then
-						results = strmatch(results, marker)
+						results = strmatch(results, match)
 						
 					-- Quality
 					else
-						local items = ''
-						for section in gmatch(results, marker) do
-							items = items .. section
+						local mark, items = Markers[i], ''
+						for section in gmatch(results, match) do
+							items = items .. mark .. section
 						end
 						results = items
 					end
@@ -67,11 +67,24 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 end
 
 function LudwigDB:GetItemsNamedLike(search, source)
-	local search = strlower(search or '')
-	local list = {}
+	local search = search and {strsplit(' ', strlower(search))}
+	local list, match = {}
 	
 	for id, name in gmatch(source or Ludwig_Data, '(%d+);([^;]+)') do
-		if strmatch(strlower(name), search) then
+		match = true
+		
+		if search then
+			name = strlower(name)
+			
+			for i, word in ipairs(search) do
+				if not strmatch(name, word) then
+					match = nil
+					break
+				end
+			end
+		end
+		
+		if match then
 			tinsert(list, id)
 		end
 	end
@@ -80,7 +93,11 @@ end
 
 function LudwigDB:GetItemName(id)
 	local quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*'..id..';([^;]+)')
-	return name, select(4, GetItemQualityColor(tonumber(quality)))
+	if name then
+		return name, select(4, GetItemQualityColor(tonumber(quality)))
+	else
+		return 'Error: Item' .. id .. ' Not Found', ''
+	end
 end
 
 function LudwigDB:GetItemLink(id)

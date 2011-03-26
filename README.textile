@@ -1,3 +1,14 @@
-Possible Improvements
-- Solve the item category ID listing
-- If it takes too much time to search the database for categories, it can be split into multiple strings in a table (instead of a single one)
+Ludwig is an item link database mod based on "GetLink":http://www.wowinterface.com/downloads/info4360-GetLink.html. Ludwig is not dependent on saved variables, and doesn't require the user to do anything to collect data.
+
+*Features*
+* Search Window - You can filter via name, quality, level, type, subtype, and equip location.
+* Linkerator support - Typing an item name in [[brackets] will automatically convert the name into an item link if the item is known to Ludwig.
+* Command line searching - typing /lw <name> will bring up a list of the top 10 matches in the chat window.
+
+*Commands*
+* /lw or /ludwig - Brings up the search frame
+* /lw <name> - Prints out a list in the chat window of the top 10 items matching <name>
+* /lw --r - Refreshes the database
+* /lw --q <itemID> - Queries the server for the given itemID 
+
+*"Source code for Ludwig can now be found on GitHub":http://github.com/Tuller/Ludwig*
