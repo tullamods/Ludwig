@@ -5,17 +5,21 @@
 --]]
 
 local function onFullMatch(match)
-	local list = LudwigDB:GetItemsNamedLike(match)
-	if list and list[1] then
-		return LudwigDB:GetItemLink(list[1])
+	if LoadAddOn('Ludwig_Data') then
+		local list = LudwigDB:GetItemsNamedLike(match)
+		if list and list[1] then
+			return LudwigDB:GetItemLink(list[1])
+		end
 	end
 	return match
 end
 
 local function onPartialMatch(match)
-	local list = LudwigDB:GetItemsNamedLike(match)
-	if list and list[1] then
-		return '[[' .. LudwigDB:GetItemName(list[1])
+	if LoadAddOn('Ludwig_Data') then
+		local list = LudwigDB:GetItemsNamedLike(match)
+		if list and list[1] then
+			return '[[' .. LudwigDB:GetItemName(list[1])
+		end
 	end
 	return '[[' .. match
 end
