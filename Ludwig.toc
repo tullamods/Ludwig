@@ -3,6 +3,6 @@
 ## Author: Tuller & Jaliborc (João Libório)
 ## Notes: Item Database
 ## Version: 2.0.0
-
 localization.lua
+linkerator.lua
 slash.lua

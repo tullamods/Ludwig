@@ -160,7 +160,7 @@
 						LudwigUI_OnSearchChanged(self, self:GetText())
 					</OnTextChanged>
 					<OnTabPressed>
-						getglobal(self:GetParent():GetName() .. 'MinLevel'):SetFocus()
+						_G[self:GetParent():GetName() .. 'MinLevel']:SetFocus()
 					</OnTabPressed>
 					<OnEditFocusLost>
 						self:HighlightText(0, 0)
@@ -293,7 +293,7 @@
 						LudwigUI_OnScrollFrameHide()
 					</OnHide>
 					<OnVerticalScroll>
-						FauxScrollFrame_OnVerticalScroll(self, arg1, LWUI_SHOWN, function(self) LudwigUI_UpdateList() end)
+						FauxScrollFrame_OnVerticalScroll(self, offset, LWUI_SHOWN, LudwigUI_UpdateList)
 					</OnVerticalScroll>
 				</Scripts>
 			</ScrollFrame>
