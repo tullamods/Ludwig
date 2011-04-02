@@ -118,14 +118,18 @@ end
 function LudwigUI_UpdateList(changed)
 	--update list only if there are changes
 	if not display or changed then
-		display = LudwigDB:GetItems(filter.name, filter.quality, filter.type, filter.subType, filter.equipLoc, filter.minLevel, filter.maxLevel)
+		display = LudwigDB:GetItems(
+			filter.name, filter.quality,
+			filter.type, filter.subType, filter.equipLoc,
+			tonumber(filter.minLevel), tonumber(filter.maxLevel)
+		)
 	end
 
 	local size = #display
 	uiFrame.title:SetText(format(L.FrameTitle, size))
 
 	FauxScrollFrame_Update(uiFrame.scrollFrame, size, LWUI_SHOWN, LWUI_STEP)
-
+	
 	local offset = uiFrame.scrollFrame.offset
 	for i,button in ipairs(uiFrame.items) do
 		local index = i + offset
@@ -146,13 +150,14 @@ end
 
 --[[ Text Search ]]--
 
-function LudwigUI_OnSearchChanged(self, text)
+function LudwigUI_OnTextChanged(self, arg)
+	local text = self:GetText()
 	if self:HasFocus() then
 		if text == '' then
 			text = nil
 		end
 		
-		if filter.name ~= text then
+		if filter[arg] ~= text then
 			local timer = .3
 	
 			self:SetScript('OnUpdate', function(self, elapsed)
@@ -160,35 +165,10 @@ function LudwigUI_OnSearchChanged(self, text)
 				
 				if timer < 0 then
 					self:SetScript('OnUpdate', nil)
-					filter.name = text
+					filter[arg] = text
 					LudwigUI_UpdateList(true)
 				end
 			end)
-		end
-	end
-end
-
-function LudwigUI_OnMinLevelChanged(self, text)
-	if self:HasFocus() then
-		if text == '' then
-			text = nil
-		end
-
-		if filter.minLevel ~= tonumber(text) then
-			filter.minLevel = tonumber(text)
-			LudwigUI_UpdateList(true)
-		end
-	end
-end
-
-function LudwigUI_OnMaxLevelChanged(self, text)
-	if(self:HasFocus()) then
-		if text == '' then
-			text = nil
-		end
-		if(filter.maxLevel ~= tonumber(text)) then
-			filter.maxLevel = tonumber(text)
-			LudwigUI_UpdateList(true)
 		end
 	end
 end

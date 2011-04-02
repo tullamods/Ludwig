@@ -47,7 +47,7 @@ local function queryItem(id)
 end
 
 --toggle the ludwig frame
-local function toggleGUI()
+function ToggleLudwigGUI()
 	local frame = _G['LudwigFrame']
 	if frame then
 		if frame:IsShown() then
@@ -59,14 +59,20 @@ local function toggleGUI()
 end
 
 
+-- load Ludwig_Data
+function Load_LudwigData()
+	return EnableAddOn('Ludwig_Data') or LoadAddOn('Ludwig_Data')
+end
+
+
 --[[
 	Slash Command Setup
 --]]
 
 SlashCmdList['LudwigSlashCOMMAND'] = function(msg)
-	if LoadAddOn('Ludwig_Data') then
+	if Load_LudwigData() then
 		if not msg or msg == '' then
-			toggleGUI()
+			ToggleLudwigGUI()
 		else
 			local cmd = msg:lower():match('%-%-([%w%s]+)')
 			if cmd then
