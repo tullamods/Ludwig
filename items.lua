@@ -1,7 +1,6 @@
 --[[
 	The API for retrieveing data from the database
 		By João Libório Cardoso (Jaliborc)
-		
 			
 	:GetItems(name, quality, class, subClass, slot, minLevel, maxLevel)
 		returns an ordered list of the item IDs that match the provided terms
@@ -20,6 +19,7 @@
 
 
 LudwigDB = {}
+
 local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
 local ItemMatch = '(%d+);([^;]+)'
 local Caches, Values = {}, {}
@@ -31,8 +31,13 @@ end
 
 --[[ Search API ]]--
 
+local strsplit = strsplit
+local tinsert = table.insert
+local tonumber = tonumber
+
+
 function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
-	local search = search and {strsplit(' ', strlower(search))}
+	local search = search and {strsplit(' ', search:lower())}
 	local terms = {class, subClass, slot, quality}
 	local results = Ludwig_Data
 	local list, match = {}
@@ -56,12 +61,12 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 			
 			-- Categories
 			if i < 4 then
-				results = strmatch(results, match)
+				results = results:match(match)
 				
 			-- Quality
 			else
 				local items = ''
-				for section in gmatch(results, match) do
+				for section in results:gmatch(match) do
 					items = items .. section
 				end
 				results = items
@@ -78,8 +83,8 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 		local min = minLevel or -1/0
 		local max = maxLevel or 1/0
 		
-		for section in gmatch(results or Ludwig_Data, '%d+'..Matchers[5]) do
-			local level = tonumber(strmatch(section, '^(%d+)'))
+		for section in (results or Ludwig_Data):gmatch('%d+'..Matchers[5]) do
+			local level = tonumber(section:match('^(%d+)'))
 			if level > min and level < max then
 				items = items .. section
 			end
@@ -96,10 +101,9 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 		match = true
 		
 		if search then
-			name = strlower(name)
-			
+			local name = name:lower()
 			for i, word in ipairs(search) do
-				if not strmatch(name, word) then
+				if not name:match(word) then
 					match = nil
 					break
 				end
@@ -114,16 +118,16 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 end
 
 function LudwigDB:GetItemNamedLike(search)
-	search = '^'..search
+	local search = '^'..search
 	for id, name in self:IterateItems() do
-		if strmatch(name, search) then
+		if name:match(search) then
 			return id, name
 		end
 	end
 end
 
 function LudwigDB:IterateItems(section)
-	return gmatch(section or Ludwig_Data, ItemMatch)
+	return (section or Ludwig_Data):gmatch(ItemMatch)
 end
 
 
@@ -131,16 +135,16 @@ end
 
 function LudwigDB:GetItemName(id)
 	if id then
-		local quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*'..id..';([^;]+)')
+		local quality, name = Ludwig_Data:match(('(%%d+)€[^€]*%d;([^;]+)'):format(id))
 		if name then
 			return name, select(4, GetItemQualityColor(tonumber(quality)))
 		else
-			return 'Error: Item' .. id .. ' Not Found', ''
+			return ('Error: Item %d Not Found'):format(id), ''
 		end
 	end
 end
 
 function LudwigDB:GetItemLink(id)
-	local name, hex = self:GetItemName(id)
-	return hex..'|Hitem:'..id..'|h['..name..']|h|r'
+	local name, hex = LudwigDB:GetItemName(id)
+	return ('%s|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r'):format(hex, id, name)
 end
