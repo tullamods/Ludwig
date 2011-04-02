@@ -157,7 +157,7 @@
 						self:ClearFocus()
 					</OnEnterPressed>
 					<OnTextChanged>
-						LudwigUI_OnSearchChanged(self, self:GetText())
+						LudwigUI_OnTextChanged(self, 'name')
 					</OnTextChanged>
 					<OnTabPressed>
 						_G[self:GetParent():GetName() .. 'MinLevel']:SetFocus()
@@ -205,7 +205,7 @@
 						self:ClearFocus()
 					</OnEnterPressed>
 					<OnTextChanged>
-						LudwigUI_OnMinLevelChanged(self, self:GetText())
+						LudwigUI_OnTextChanged(self, 'minLevel')
 					</OnTextChanged>
 				</Scripts>
 			</EditBox>
@@ -225,7 +225,7 @@
 						self:ClearFocus()
 					</OnEnterPressed>
 					<OnTextChanged>
-						LudwigUI_OnMaxLevelChanged(self, self:GetText())
+						LudwigUI_OnTextChanged(self, 'maxLevel')
 					</OnTextChanged>
 				</Scripts>
 			</EditBox>

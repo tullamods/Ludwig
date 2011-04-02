@@ -5,20 +5,20 @@
 --]]
 
 local function onFullMatch(match)
-	if LoadAddOn('Ludwig_Data') then
-		local list = LudwigDB:GetItemsNamedLike(match)
-		if list and list[1] then
-			return LudwigDB:GetItemLink(list[1])
+	if Load_LudwigData() then
+		local id = LudwigDB:GetItemNamedLike(match)
+		if id then
+			return LudwigDB:GetItemLink(id)
 		end
 	end
 	return match
 end
 
 local function onPartialMatch(match)
-	if LoadAddOn('Ludwig_Data') then
-		local list = LudwigDB:GetItemsNamedLike(match)
-		if list and list[1] then
-			return '[[' .. LudwigDB:GetItemName(list[1])
+	if Load_LudwigData() then
+		local id, name = LudwigDB:GetItemNamedLike(match)
+		if id then
+			return '[[' .. name
 		end
 	end
 	return '[[' .. match

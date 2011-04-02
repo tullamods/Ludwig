@@ -1,13 +1,7 @@
 <Bindings>
 	<Binding name="LUDWIG_SHOW" header="LUDWIG">
-		if keystate == 'down' then
-			if LoadAddOn('Ludwig_Data') then
-				if _G['LudwigFrame']:IsShown() then
-					HideUIPanel(_G['LudwigFrame'])
-				else
-					ShowUIPanel(_G['LudwigFrame'])
-				end
-			end
+		if keystate == 'down' and Load_LudwigData() then
+			ToggleLudwigGUI()
 		end
 	</Binding>
 </Bindings>
