@@ -11,79 +11,29 @@
 			queries the game for and displays the link of <itemID>
 --]]
 
---constants!
-local L = _G['LUDWIG_LOCALS']
-local MAX_RESULTS = 10
+local AddonName, Addon = ...
+local L = Addon('Locals')
 
---[[
-	Slash Command Actions
---]]
 
---display all items matching <name> in the chat window
-local function listItemsMatching(name)
-	local startTime = GetTime()
+--[[ Slash Command Setup ]]--
 
-	local results = LudwigDB:GetItems(name)
-	if #results > 0 then
-		--print title
-		print(format(L.NumMatching, #results, name))
-
-		--list result
-		for i = 1, math.min(#results, MAX_RESULTS) do
-			print(' - ' .. LudwigDB:GetItemLink(results[i]))
-		end
-
-		--print the time it took to generate the set
-		print(format(L.GenTime, GetTime() - startTime))
-	else
-		--print
-		print(format(L.NoMatchingItems, name))
-	end
+local printMsg = function(...)
+	print(AddonName, ...)
 end
-
---query and display an item that matches <id>
-local function queryItem(id)
-	SetItemRef(format('item:%d', tonumber(id)))
-end
-
---toggle the ludwig frame
-function ToggleLudwigGUI()
-	local frame = _G['LudwigFrame']
-	if frame then
-		if frame:IsShown() then
-			HideUIPanel(frame)
-		else
-			ShowUIPanel(frame)
-		end
-	end
-end
-
-
--- load Ludwig_Data
-function Load_LudwigData()
-	return EnableAddOn('Ludwig_Data') or LoadAddOn('Ludwig_Data')
-end
-
-
---[[
-	Slash Command Setup
---]]
 
 SlashCmdList['LudwigSlashCOMMAND'] = function(msg)
-	if Load_LudwigData() then
-		if not msg or msg == '' then
-			ToggleLudwigGUI()
-		else
-			local cmd = msg:lower():match('%-%-([%w%s]+)')
-			if cmd then
-				if cmd:match('q %d+') then
-					queryItem(cmd:match('q (%d+)'))
-				else
-					print(format(L.UnknownCommand, cmd))
-				end
+	if not msg or msg == '' then
+		Addon:ToggleSearchFrame()
+	else
+		local cmd = msg:lower():match('%-%-([%w%s]+)')
+		if cmd then
+			if cmd:match('q %d+') then
+				Addon:QueryItemId(cmd:match('q (%d+)'))
 			else
-				listItemsMatching(msg)
+				printMsg(L.UnknownCommand:format(cmd))
 			end
+		else
+			Addon:SearchForItem(msg)
 		end
 	end
 end

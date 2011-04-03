@@ -3,6 +3,11 @@
 ## Author: Tuller & Jaliborc (João Libório)
 ## Notes: Item Database
 ## Version: 2.0.0
-localization.lua
+module.lua
+localization\localization.lua
+localization\localization.zhCN.lua
+items.lua
+Ludwig.lua
 slash.lua
 linkerator.lua
+ui.xml

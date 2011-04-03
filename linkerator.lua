@@ -4,22 +4,21 @@
 		Thanks to N00bZXI for the autocomplete changes
 --]]
 
+local AddonName, Addon = ...
+local ItemDB = Addon('ItemDB')
+
 local function onFullMatch(match)
-	if Load_LudwigData() then
-		local id = LudwigDB:GetItemNamedLike(match)
-		if id then
-			return LudwigDB:GetItemLink(id)
-		end
+	local id = ItemDB:GetItemNamedLike(match)
+	if id then
+		return ItemDB:GetItemLink(id)
 	end
 	return match
 end
 
 local function onPartialMatch(match)
-	if Load_LudwigData() then
-		local id, name = LudwigDB:GetItemNamedLike(match)
-		if id then
-			return '[[' .. name
-		end
+	local id, name = ItemDB:GetItemNamedLike(match)
+	if id then
+		return '[[' .. name
 	end
 	return '[[' .. match
 end

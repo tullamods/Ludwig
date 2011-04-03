@@ -101,6 +101,7 @@
 						<Anchor point="BOTTOMLEFT"/>
 					</Anchors>
 				</Texture>
+				
 				<Texture file="Interface\PaperDollInfoFrame\SkillFrame-BotRight">
 					<Size x="128" y="256"/>
 					<Anchors>

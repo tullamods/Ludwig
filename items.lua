@@ -17,8 +17,11 @@
 	:GetItemLink(id)
 --]]
 
+local AddonName, Addon = ...
+local ItemDB = Addon:NewModule('ItemDB')
 
-LudwigDB = {}
+
+--[[ Globals & Local Bindings ]]--
 
 local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
 local ItemMatch = '(%d+);([^;]+)'
@@ -28,15 +31,20 @@ for i, marker in ipairs(Markers) do
 	Matchers[i] = marker..'[^'..marker..']+'
 end
 
-
---[[ Search API ]]--
-
 local strsplit = strsplit
 local tinsert = table.insert
 local tonumber = tonumber
 
+local function loadData()
+	return EnableAddOn(AddonName .. '_Data') or LoadAddOn(AddonName .. '_Data')
+end
 
-function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
+
+--[[ Search API ]]--
+
+function ItemDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
+	if not loadData() then return end
+
 	local search = search and {strsplit(' ', search:lower())}
 	local terms = {class, subClass, slot, quality}
 	local results = Ludwig_Data
@@ -117,7 +125,9 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 	return list
 end
 
-function LudwigDB:GetItemNamedLike(search)
+function ItemDB:GetItemNamedLike(search)
+	if not loadData() then return end
+	
 	local search = '^'..search
 	for id, name in self:IterateItems() do
 		if name:match(search) then
@@ -126,14 +136,14 @@ function LudwigDB:GetItemNamedLike(search)
 	end
 end
 
-function LudwigDB:IterateItems(section)
+function ItemDB:IterateItems(section)
 	return (section or Ludwig_Data):gmatch(ItemMatch)
 end
 
 
 --[[ Data API ]]--
 
-function LudwigDB:GetItemName(id)
+function ItemDB:GetItemName(id)
 	if id then
 		local quality, name = Ludwig_Data:match(('(%%d+)€[^€]*%d;([^;]+)'):format(id))
 		if name then
@@ -144,7 +154,7 @@ function LudwigDB:GetItemName(id)
 	end
 end
 
-function LudwigDB:GetItemLink(id)
-	local name, hex = LudwigDB:GetItemName(id)
+function ItemDB:GetItemLink(id)
+	local name, hex = self:GetItemName(id)
 	return ('%s|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r'):format(hex, id, name)
 end
