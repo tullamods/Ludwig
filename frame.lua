@@ -1,5 +1,4 @@
 local AddonName, Addon = ...
-local L = Addon('Locals')
 local ItemDB = Addon('ItemDB')
 
 
@@ -7,7 +6,7 @@ local ItemDB = Addon('ItemDB')
 
 local function itemButton_OnEnter(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_BOTTOMRIGHT')
-	GameTooltip:SetHyperlink(ItemDB:GetItemLink(self:GetID())
+	GameTooltip:SetHyperlink(ItemDB:GetItemLink(self:GetID()))
 	GameTooltip:Show()
 end
 
@@ -18,23 +17,23 @@ local function itemButton_OnLeave(self)
 end
 
 local function itemButton_OnClick(self, button)
-	HandleModifiedItemClick(ItemDB:GetItemLink(self:GetID())
+	HandleModifiedItemClick(ItemDB:GetItemLink(self:GetID()))
 end
 
 local function itemButton_Create(name, parent)
 	local b = CreateFrame('Button', name, parent)
 	b:SetSize(300, 22)
-	
+
 	local icon = b:CreateTexture(nil, 'BACKGROUND')
 	icon:SetSize(20, 20)
 	icon:SetPoint('LEFT', 4, 0)
 	icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	b.icon = icon
-	
+
 	b:SetScript('OnEnter', itemButton_OnEnter)
 	b:SetScript('OnLeave', itemButton_OnLeave)
 	b:SetScript('OnClick', itemButton_OnClick)
-	
+
 	return b
 end
 
@@ -76,21 +75,22 @@ end
 
 local function searchBox_OnEditFocusGained(self)
 	self:HighlightText()
-	searchBox_ClearDefaultText()
+	searchBox_ClearDefaultText(self)
 end
 
 local function searchBox_Create(name, parent)
 	local searchBox = CreateFrame('EditBox', name, parent, 'InputBoxTemplate')
 	searchBox:SetSize(148, 20)
 	searchBox:SetPoint('TOPLEFT', 84, -44)
-	
+	searchBox:SetAutoFocus(false)
+
 	searchBox:SetScript('OnShow', searchBox_OnShow)
 	searchBox:SetScript('OnEnterPressed', searchBox_OnEnterPressed)
 	searchBox:SetScript('OnTextChanged', searchBox_OnTextChanged)
 	searchBox:SetScript('OnTabPressed', searchBox_OnTabPressed)
 	searchBox:SetScript('OnEditFocusLost', searchBox_OnEditFocusLost)
 	searchBox:SetScript('OnEditFocusGained', searchBox_OnEditFocusGained)
-	
+
 	return searchBox
 end
 
@@ -103,7 +103,7 @@ local function numSearchBox_Create(name, parent)
 	searchBox:SetNumeric(true)
 	searchBox:SetAutoFocus(false)
 	searchBox:SetMaxLetters(2)
-	
+
 	return searchBox
 end
 
@@ -124,12 +124,12 @@ end
 
 local function minLevelSearchBox_Create(name, parent)
 	local searchBox = numSearchBox_Create(name, parent)
-	
+
 	searchBox:SetScript('OnTabPressed', minLevelSearchBox_OnTabPressed)
 	searchBox:SetScript('OnEnterPressed', minLevelSearchBox_OnEnterPressed)
 	searchBox:SetScript('OnTextChanged', minLevelSearchBox_OnTextChanged)
-	
-	return searchBox	
+
+	return searchBox
 end
 
 
@@ -149,18 +149,19 @@ end
 
 local function maxLevelSearchBox_Create(name, parent)
 	local searchBox = numSearchBox_Create(name, parent)
-	
+
 	searchBox:SetScript('OnTabPressed', maxLevelSearchBox_OnTabPressed)
 	searchBox:SetScript('OnEnterPressed', maxLevelSearchBox_OnEnterPressed)
 	searchBox:SetScript('OnTextChanged', maxLevelSearchBox_OnTextChanged)
-	
-	return searchBox	
+
+	return searchBox
 end
 
 
 --[[ Reset Button ]]--
 
 local function resetButton_OnClick(self, button)
+	--reset the search window
 end
 
 local function resetButton_Create(name, parent)
@@ -169,10 +170,61 @@ local function resetButton_Create(name, parent)
 	b:SetNormalTexture([[Interface\Buttons\CancelButton-Up]])
 	b:SetPushedTexture([[Interface\Buttons\CancelButton-Down]])
 	b:SetHighlightTexture([[Interface\Buttons\CancelButton-Highlight]])
-	
+
 	b:SetScript('OnClick', resetButton_OnClick)
-	
+
 	return b
+end
+
+--[[ Scroll Frame ]]--
+
+local function scrollFrame_OnShow(self)
+end
+
+local function scrollFrame_OnHide(self)
+end
+
+local function scrollFrame_OnVerticalScroll(self, ...)
+	print('OnVerticalScroll', offset)
+	local offset = ...
+	print(...)
+--	FauxScrollFrame_OnVerticalScroll(self, offset, 15, function() print(...) end)
+end
+
+local function scrollFrame_Create(name, parent)
+	local f = CreateFrame('ScrollFrame', name, parent, 'FauxScrollFrameTemplate')
+
+--	local bg = f:CreateTexture()
+--	bg:SetAllPoints(f)
+--	bg:SetTexture(0, 1, 0)
+
+	f:SetScript('OnShow', scrollFrame_OnShow)
+	f:SetScript('OnHide', scrollFrame_OnHide)
+	f:SetScript('OnVerticalScroll', scrollFrame_OnVerticalScroll)
+
+	return f
+end
+
+
+--[[ Quality Filter ]]--
+
+local function qualityFilter_Create(name, parent)
+	local f = CreateFrame('Frame', name, parent, 'UIDropDownMenuTemplate')
+--	UIDropDownMenu_Initialize(self, Quality_Initialize)
+	UIDropDownMenu_SetWidth(f, 90)
+
+	return f
+end
+
+
+--[[ Type FIlter ]]--
+
+local function typeFilter_Create(name, parent)
+	local f = CreateFrame('Frame', name, parent, 'UIDropDownMenuTemplate')
+--	UIDropDownMenu_Initialize(self, Quality_Initialize)
+	UIDropDownMenu_SetWidth(f, 200)
+	
+	return f
 end
 
 
@@ -189,81 +241,92 @@ end
 local function frame_Create(name, parent)
 	local frame = CreateFrame('Frame', name, parent)
 	local frameName = frame:GetName()
-	
+
 	--set attributes
 	frame:Hide()
 	frame:SetSize(384, 512)
 	frame:EnableMouse(true)
 	frame:SetToplevel(true)
 	frame:SetMovable(true)
-	
+
 	frame:SetAttribute('UIPanelLayout-defined', true)
 	frame:SetAttribute('UIPanelLayout-enabled', true)
 	frame:SetAttribute('UIPanelLayout-whileDead', true)
 	frame:SetAttribute('UIPanelLayout-area', true)
 	frame:SetAttribute('UIPanelLayout-pushable', true)
-	
+
 	frame:SetHitRectInsets(0, 35, 0, 75)
-	
+
 	--add textures
 	local icon = frame:CreateTexture(frameName .. 'Icon', 'BACKGROUND')
 	icon:SetSize(62, 62)
 	icon:SetPoint('TOPLEFT', 5, -5)
 	SetPortraitToTexture(icon, [[Interface\Icons\INV_Misc_Book_04]])
-	
+
 	--background textures
 	local tl = frame:CreateTexture(nil, 'ARTWORK')
-	tw:SetSize(256, 256)
-	tw:SetPoint('TOPLEFT')
-	tw:SetTexture([[Interface\TaxiFrame\UI-TaxiFrame-TopLeft]])
-	
+	tl:SetSize(256, 256)
+	tl:SetPoint('TOPLEFT')
+	tl:SetTexture([[Interface\TaxiFrame\UI-TaxiFrame-TopLeft]])
+
 	local tr = frame:CreateTexture(nil, 'ARTWORK')
 	tr:SetSize(128, 256)
 	tr:SetPoint('TOPRIGHT')
 	tr:SetTexture([[Interface\TaxiFrame\UI-TaxiFrame-TopRight]])
-	
+
 	local bl = frame:CreateTexture(nil, 'ARTWORK')
 	bl:SetSize(256, 256)
 	bl:SetPoint('BOTTOMLEFT')
 	bl:SetTexture([[Interface\PaperDollInfoFrame\SkillFrame-BotLeft]])
-	
+
 	local br = frame:CreateTexture(nil, 'ARTWORK')
-	br:SetSie(128, 256)
+	br:SetSize(128, 256)
 	br:SetPoint('BOTTOMRIGHT')
 	br:SetTexture([[Interface\PaperDollInfoFrame\SkillFrame-BotRight]])
-	
+
 	--add title text
 	local text = frame:CreateFontString(frameName .. 'Text', 'ARTWORK', 'GameFontHighlight')
 	text:SetSize(300, 14)
 	text:SetText(_G['TEXT'])
 	text:SetPoint('TOP', 0, -16)
-	
+
 	--close button
-	local closeButton = CreateFrame('Button', frameName .. 'CloseButton', 'UIPanelCloseButton')
+	local closeButton = CreateFrame('Button', frameName .. 'CloseButton', frame, 'UIPanelCloseButton')
 	closeButton:SetPoint('TOPRIGHT', -29, -8)
-	
+
 	--search box
 	local searchBox = searchBox_Create(frameName .. 'Search', frame)
 	searchBox:SetPoint('TOPLEFT', 84, -44)
-	
+
 	--min level search
 	local minLevelSearchBox = minLevelSearchBox_Create(frameName .. 'MinLevel', frame)
 	minLevelSearchBox:SetPoint('LEFT', searchBox, 'RIGHT', 12, 0)
-	
-	local hyphenText = self:CreateFontString(frameName .. 'HyphenText', 'ARTWORK', 'GameFontHighlightSmall')
+
+	local hyphenText = frame:CreateFontString(frameName .. 'HyphenText', 'ARTWORK', 'GameFontHighlightSmall')
 	hyphenText:SetText('-')
 	hyphenText:SetPoint('LEFT', minLevelSearchBox, 'RIGHT', 1, 0)
-	
+
 	--max level search
 	local maxLevelSearchBox = maxLevelSearchBox_Create(frameName .. 'MaxLevel', frame)
 	maxLevelSearchBox:SetPoint('LEFT', minLevelSearchBox, 'RIGHT', 12, 0)
-	
+
 	--reset button
 	local resetButton = resetButton_Create(frameName .. 'ResetButton', frame)
 	resetButton:SetPoint('LEFT', maxLevelSearchBox, 'RIGHT', -2, -2)
-	
+
 	--scroll area
+	local scrollFrame = scrollFrame_Create(frameName .. 'ScrollFrame', frame)
+	scrollFrame:SetPoint('TOPLEFT', 24, -78)
+	scrollFrame:SetPoint('BOTTOMRIGHT', -68, 106)
+
+	--quality filter
+	local qualityFilter = qualityFilter_Create(frameName .. 'Quality', frame)
+	qualityFilter:SetPoint('BOTTOMLEFT', 0, 72)
 	
+	--item type filter
+	local typeFilter = typeFilter_Create(frameName .. 'Type', frame)
+	typeFilter:SetPoint('BOTTOMLEFT', 110, 72)
+
 	return frame
 end
 

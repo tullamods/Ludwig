@@ -28,7 +28,7 @@ SlashCmdList['LudwigSlashCOMMAND'] = function(msg)
 		local cmd = msg:lower():match('%-%-([%w%s]+)')
 		if cmd then
 			if cmd:match('q %d+') then
-				Addon:QueryItemId(cmd:match('q (%d+)'))
+				Addon:QueryItem(cmd:match('q (%d+)'))
 			else
 				printMsg(L.UnknownCommand:format(cmd))
 			end

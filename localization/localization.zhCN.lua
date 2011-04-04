@@ -3,6 +3,7 @@
 --]]
 
 if GetLocale() ~= "zhCN" then return end
+
 local AddonName, Addon = ...
 local L = Addon('Locals')
 

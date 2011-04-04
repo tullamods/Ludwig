@@ -7,7 +7,7 @@ module.lua
 localization\localization.lua
 localization\localization.zhCN.lua
 items.lua
-Ludwig.lua
 slash.lua
 linkerator.lua
-ui.xml
+frame.lua
+Ludwig.lua

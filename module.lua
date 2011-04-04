@@ -1,11 +1,11 @@
---[[ 
+--[[
 	LibStubish code to define addon modules
-	
+
 	Usage:
 		local module = Addon('moduleId') or Addon:GetModule('moduleId')
-		
+
 		local module = Addon:NewModule('moduleId')
-		
+
 		for name, module in Addon:IterateModules() do
 			--some sort of things
 		end
@@ -16,19 +16,19 @@ local modules = {}
 
 Addon.GetModule = function(self, name, silent)
 	local module = modules[name]
-	if module and not silent then
-		error('Could not find module \'%s\''):format(name), 2)
+	if not(module or silent) then
+		error(('Could not find module \'%s\''):format(name), 2)
 	end
-	
-	return modules[name]
+
+	return module
 end
 
-Addon.NewModule = function(self, name)
+Addon.NewModule = function(self, name, obj)
 	if modules[name] then
 		error(('Module \'%s\' already exists'):format(name), 2)
 	end
-	
-	local module = {}
+
+	local module = obj or {}
 	modules[name] = module
 	return module
 end

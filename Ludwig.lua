@@ -1,10 +1,11 @@
---[[ 
+--[[
 	Ludwig.lua
 		Ludwig's globally accessible methods
 --]]
 
 local AddonName, Addon = ...; Ludwig = Addon
 local L = Addon('Locals')
+local ItemDB = Addon('ItemDB')
 
 --toggle the UI frame
 function Addon:ToggleSearchFrame()
@@ -20,14 +21,14 @@ end
 function Addon:SearchForItem(itemName)
 	local startTime = GetTime()
 
-	local results = self('ItemDB'):GetItems(itemName)
+	local results = ItemDB:GetItems(itemName)
 	if #results > 0 then
 		--print title
 		print(format(L.NumMatching, #results, itemName))
 
 		--list result
 		for i = 1, math.min(#results, MAX_RESULTS) do
-			print(' - ' .. self('ItemDB'):GetItemLink(results[i]))
+			print(' - ' .. ItemDB:GetItemLink(results[i]))
 		end
 
 		--print the time it took to generate the set
