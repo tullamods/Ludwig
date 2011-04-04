@@ -208,9 +208,32 @@ end
 
 --[[ Quality Filter ]]--
 
+local function qualityFilter_OnClick(self, dropdown, ...)
+	UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+end
+
+local function qualityFilter_Initialize(self, level)
+	local info = UIDropDownMenu_CreateInfo()
+	info.text = ALL
+	info.value = -1
+	info.func = qualityFilter_OnClick
+	info.arg1 = self
+	UIDropDownMenu_AddButton(info)
+
+	for i, color in ipairs(ITEM_QUALITY_COLORS) do
+		info.text = color.hex .. _G[format('ITEM_QUALITY%d_DESC', i)] .. '|r'
+		info.value = i
+		info.func = qualityFilter_OnClick
+		info.arg1 = self
+		info.checked = nil
+		UIDropDownMenu_AddButton(info)
+	end
+end
+
 local function qualityFilter_Create(name, parent)
 	local f = CreateFrame('Frame', name, parent, 'UIDropDownMenuTemplate')
---	UIDropDownMenu_Initialize(self, Quality_Initialize)
+	UIDropDownMenu_Initialize(f, qualityFilter_Initialize)
+	UIDropDownMenu_SetSelectedValue(f, -1);
 	UIDropDownMenu_SetWidth(f, 90)
 
 	return f

@@ -219,10 +219,23 @@ end
 
 --add all buttons to the dropdown menu
 local function Quality_Initialize(self)
-	AddItem(ALL, ALL, Quality_OnClick)
-	for i = 7, 0, -1 do
-		AddItem(Quality_GetText(i), i, Quality_OnClick)
+	local info = UIDropDownMenu_CreateInfo();
+	info.text = ALL;
+	info.value = -1;
+	info.func = BrowseDropDown_OnClick;
+	UIDropDownMenu_AddButton(info);
+	for i=0, getn(ITEM_QUALITY_COLORS)-2  do
+		info.text = _G["ITEM_QUALITY"..i.."_DESC"];
+		info.value = i;
+		info.func = BrowseDropDown_OnClick;
+		info.checked = nil;
+		UIDropDownMenu_AddButton(info);
 	end
+end
+
+function BrowseDropDown_OnClick(self)
+	UIDropDownMenu_SetSelectedValue(BrowseDropDown, self.value);
+end
 end
 
 function LudwigUI_OnQualityShow(self)
