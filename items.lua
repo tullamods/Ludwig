@@ -20,6 +20,7 @@
 
 
 LudwigDB = {}
+
 local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
 local ItemMatch = '(%d+);([^;]+)'
 local Caches, Values = {}, {}
@@ -33,24 +34,29 @@ end
 
 function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
 	local search = search and {strsplit(' ', strlower(search))}
-	local terms = {class, subClass, slot, quality}
+	local filters = {class, subClass, slot, quality}
+	local prevMin, prevMax = Values[5], Values[6]
+	
 	local results = Ludwig_Data
 	local list, match = {}
 	local level = 5
 	
+	
 	-- Check Caches
 	for i = 1, 4 do
-		if terms[i] == Values[i] then
-			results = Caches[i]
+		if filters[i] == Values[i] then
+			results = Caches[i] or Ludwig_Data
 		else
 			level = i
 			break
 		end
 	end
+	Values = filters
+	
 	
 	-- Apply Filters
 	for i = level, 4 do
-		local term = terms[i]
+		local term = filters[i]
 		if term then
 			local match = term .. Matchers[i]
 			
@@ -59,7 +65,7 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 				results = strmatch(results, match)
 				
 			-- Quality
-			else
+			elseif i == 4 then
 				local items = ''
 				for section in gmatch(results, match) do
 					items = items .. section
@@ -70,10 +76,13 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 			Caches[i] = results
 		end
 	end
-	Values = terms
+	
 	
 	-- Search Level
-	if (minLevel or maxLevel) and (level < 5 or Values[5] ~= minLevel or Values[6] ~= maxLevel) then
+	if level == 5 and prevMin == minLevel and prevMax == maxLevel then
+		results = Caches[5] or Ludwig_Data
+		
+	elseif minLevel or maxLevel then
 		local items = ''
 		local min = minLevel or -1/0
 		local max = maxLevel or 1/0
@@ -85,11 +94,11 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 			end
 		end
 		
+		Values[5], Values[6] = minLevel, maxLevel
 		Caches[5] = items
 		results = items
-	else
-		results = Caches[5]
 	end
+	
 	
 	-- Search Name
 	for id, name in self:IterateItems(results) do
@@ -110,6 +119,7 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 			tinsert(list, id)
 		end
 	end
+	
 	return list
 end
 

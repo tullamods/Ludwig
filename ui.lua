@@ -7,7 +7,7 @@ LWUI_SHOWN, LWUI_STEP = 15, 15
 
 local L = LUDWIG_LOCALS
 local ITEM_WIDTH = 300
-local display --all things to display on the list
+local display, size --all things to display on the list
 local filter = {}
 local uiFrame
 
@@ -117,17 +117,12 @@ end
 
 function LudwigUI_UpdateList(changed)
 	--update list only if there are changes
-	if not display or changed then
-		display = LudwigDB:GetItems(
-			filter.name, filter.quality,
-			filter.type, filter.subType, filter.equipLoc,
-			tonumber(filter.minLevel), tonumber(filter.maxLevel)
-		)
+	if not display or changed == true then
+		display = LudwigDB:GetItems(filter.name, filter.quality, filter.type, filter.subType, filter.equipLoc, tonumber(filter.minLevel), tonumber(filter.maxLevel))
+		size = #display
 	end
 
-	local size = #display
 	uiFrame.title:SetText(format(L.FrameTitle, size))
-
 	FauxScrollFrame_Update(uiFrame.scrollFrame, size, LWUI_SHOWN, LWUI_STEP)
 	
 	local offset = uiFrame.scrollFrame.offset
