@@ -20,9 +20,6 @@
 local AddonName, Addon = ...
 local ItemDB = Addon:NewModule('ItemDB')
 
-
---[[ Globals & Local Bindings ]]--
-
 local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
 local ItemMatch = '(%d+);([^;]+)'
 local Caches, Values = {}, {}
@@ -45,36 +42,41 @@ end
 function ItemDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
 	if not loadData() then return end
 
-	local search = search and {strsplit(' ', search:lower())}
-	local terms = {class, subClass, slot, quality}
+	local search = search and {strsplit(' ', strlower(search))}
+	local filters = {class, subClass, slot, quality}
+	local prevMin, prevMax = Values[5], Values[6]
+
 	local results = Ludwig_Data
 	local list, match = {}
 	local level = 5
 
+
 	-- Check Caches
 	for i = 1, 4 do
-		if terms[i] == Values[i] then
-			results = Caches[i]
+		if filters[i] == Values[i] then
+			results = Caches[i] or Ludwig_Data
 		else
 			level = i
 			break
 		end
 	end
+	Values = filters
+
 
 	-- Apply Filters
 	for i = level, 4 do
-		local term = terms[i]
+		local term = filters[i]
 		if term then
 			local match = term .. Matchers[i]
 
 			-- Categories
 			if i < 4 then
-				results = results:match(match)
+				results = strmatch(results, match)
 
 			-- Quality
-			else
+			elseif i == 4 then
 				local items = ''
-				for section in results:gmatch(match) do
+				for section in gmatch(results, match) do
 					items = items .. section
 				end
 				results = items
@@ -83,35 +85,39 @@ function ItemDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLe
 			Caches[i] = results
 		end
 	end
-	Values = terms
+
 
 	-- Search Level
-	if (minLevel or maxLevel) and (level < 5 or Values[5] ~= minLevel or Values[6] ~= maxLevel) then
+	if level == 5 and prevMin == minLevel and prevMax == maxLevel then
+		results = Caches[5] or Ludwig_Data
+
+	elseif minLevel or maxLevel then
 		local items = ''
 		local min = minLevel or -1/0
 		local max = maxLevel or 1/0
 
-		for section in (results or Ludwig_Data):gmatch('%d+'..Matchers[5]) do
-			local level = tonumber(section:match('^(%d+)'))
+		for section in gmatch(results or Ludwig_Data, '%d+'..Matchers[5]) do
+			local level = tonumber(strmatch(section, '^(%d+)'))
 			if level > min and level < max then
 				items = items .. section
 			end
 		end
 
+		Values[5], Values[6] = minLevel, maxLevel
 		Caches[5] = items
 		results = items
-	else
-		results = Caches[5]
 	end
+
 
 	-- Search Name
 	for id, name in self:IterateItems(results) do
 		match = true
 
 		if search then
-			local name = name:lower()
+			name = strlower(name)
+
 			for i, word in ipairs(search) do
-				if not name:match(word) then
+				if not strmatch(name, word) then
 					match = nil
 					break
 				end
@@ -122,39 +128,42 @@ function ItemDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLe
 			tinsert(list, id)
 		end
 	end
+
 	return list
 end
 
 function ItemDB:GetItemNamedLike(search)
-	if not loadData() then return end
-
-	local search = '^'..search
+	search = '^'..search
 	for id, name in self:IterateItems() do
-		if name:match(search) then
+		if strmatch(name, search) then
 			return id, name
 		end
 	end
 end
 
 function ItemDB:IterateItems(section)
-	return (section or Ludwig_Data):gmatch(ItemMatch)
+	if not loadData() then return end
+
+	return gmatch(section or Ludwig_Data, ItemMatch)
 end
 
 
 --[[ Data API ]]--
 
 function ItemDB:GetItemName(id)
+	if not loadData() then return end
+
 	if id then
-		local quality, name = Ludwig_Data:match(('(%%d+)€[^€]*%d;([^;]+)'):format(id))
+		local quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*'..id..';([^;]+)')
 		if name then
 			return name, select(4, GetItemQualityColor(tonumber(quality)))
 		else
-			return ('Error: Item %d Not Found'):format(id), ''
+			return 'Error: Item' .. id .. ' Not Found', ''
 		end
 	end
 end
 
 function ItemDB:GetItemLink(id)
 	local name, hex = self:GetItemName(id)
-	return ('%s|Hitem:%d:0:0:0:0:0:0:0:0|h[%s]|h|r'):format(hex, id, name)
+	return hex..'|Hitem:'..id..'|h['..name..']|h|r'
 end

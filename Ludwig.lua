@@ -6,6 +6,7 @@
 local AddonName, Addon = ...; Ludwig = Addon
 local L = Addon('Locals')
 local ItemDB = Addon('ItemDB')
+local MAX_RESULTS = 10
 
 --toggle the UI frame
 function Addon:ToggleSearchFrame()
