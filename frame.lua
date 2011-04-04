@@ -220,7 +220,8 @@ local function qualityFilter_Initialize(self, level)
 	info.arg1 = self
 	UIDropDownMenu_AddButton(info)
 
-	for i, color in ipairs(ITEM_QUALITY_COLORS) do
+	for i = 0, #ITEM_QUALITY_COLORS do
+		local color = ITEM_QUALITY_COLORS[i]
 		info.text = color.hex .. _G[format('ITEM_QUALITY%d_DESC', i)] .. '|r'
 		info.value = i
 		info.func = qualityFilter_OnClick
@@ -246,7 +247,7 @@ local function typeFilter_Create(name, parent)
 	local f = CreateFrame('Frame', name, parent, 'UIDropDownMenuTemplate')
 --	UIDropDownMenu_Initialize(self, Quality_Initialize)
 	UIDropDownMenu_SetWidth(f, 200)
-	
+
 	return f
 end
 
@@ -345,7 +346,7 @@ local function frame_Create(name, parent)
 	--quality filter
 	local qualityFilter = qualityFilter_Create(frameName .. 'Quality', frame)
 	qualityFilter:SetPoint('BOTTOMLEFT', 0, 72)
-	
+
 	--item type filter
 	local typeFilter = typeFilter_Create(frameName .. 'Type', frame)
 	typeFilter:SetPoint('BOTTOMLEFT', 110, 72)
