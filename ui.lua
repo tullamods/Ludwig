@@ -124,7 +124,7 @@ function LudwigUI_UpdateList(changed)
 
 	uiFrame.title:SetText(format(L.FrameTitle, size))
 	FauxScrollFrame_Update(uiFrame.scrollFrame, size, LWUI_SHOWN, LWUI_STEP)
-	
+
 	local offset = uiFrame.scrollFrame.offset
 	for i,button in ipairs(uiFrame.items) do
 		local index = i + offset
@@ -133,7 +133,7 @@ function LudwigUI_UpdateList(changed)
 		else
 			local id = display[index]
 			local name, hex = LudwigDB:GetItemName(id)
-			
+
 			button.icon:SetTexture(GetItemIcon(id))
 			button:SetText(hex .. name .. '|r')
 			button:SetID(id)
@@ -151,13 +151,13 @@ function LudwigUI_OnTextChanged(self, arg)
 		if text == '' then
 			text = nil
 		end
-		
+
 		if filter[arg] ~= text then
 			local timer = .3
-	
+
 			self:SetScript('OnUpdate', function(self, elapsed)
 				timer = timer - elapsed
-				
+
 				if timer < 0 then
 					self:SetScript('OnUpdate', nil)
 					filter[arg] = text

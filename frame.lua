@@ -1,6 +1,40 @@
 local AddonName, Addon = ...
-local ItemDB = Addon('ItemDB')
+local SearchFrame = Addon:NewModule('SearchFrame')
 
+--[[ Globals ]]--
+
+local ItemDB = Addon('ItemDB')
+local L = Addon('Locals')
+
+local ITEMS_TO_DISPLAY = 15
+local ITEM_HEIGHT = 22
+local ITEM_STEP = 1
+local DEFAULT_SEARCH_TEXT = _G['SEARCH']
+local Search = {
+	name = '',
+
+	getItems = function(self)
+		return ItemDB:GetItems(
+			self.name,
+			self.quality,
+			self.type,
+			self.subType,
+			self.equipLoc,
+			self.minLevel,
+			self.maxLevel
+		)
+	end,
+
+	reset = function(self)
+		self.name = ''
+		self.quality = nil
+		self.type = nil
+		self.subType = nil
+		self.equipLoc = nil
+		self.minLevel = nil
+		self.maxLevel = nil
+	end,
+}
 
 --[[ Item Button ]]--
 
@@ -21,8 +55,14 @@ local function itemButton_OnClick(self, button)
 end
 
 local function itemButton_Create(name, parent)
-	local b = CreateFrame('Button', name, parent)
+	local b = CreateFrame('Button', name, parent); b:Hide()
 	b:SetSize(300, 22)
+	b:SetHighlightTexture([[Interface\QuestFrame\UI-QuestTitleHighlight]])
+
+	local text = b:CreateFontString(nil, 'OVERLAY', 'GameFontNormalLeft')
+	text:SetPoint('TOPLEFT', 28, 0)
+	text:SetPoint('BOTTOMRIGHT')
+	b:SetFontString(text)
 
 	local icon = b:CreateTexture(nil, 'BACKGROUND')
 	icon:SetSize(20, 20)
@@ -41,14 +81,14 @@ end
 --[[ Search Box ]]--
 
 local function searchBox_ClearDefaultText(self)
-	if self:GetText() == _G['SEARCH'] then
+	if self:GetText() == DEFAULT_SEARCH_TEXT then
 		self:SetText('')
 	end
 end
 
 local function searchBox_AddDefaultText(self)
 	if self:GetText() == '' then
-		self:SetText(_G['SEARCH'])
+		self:SetText(DEFAULT_SEARCH_TEXT)
 	end
 end
 
@@ -60,8 +100,10 @@ local function searchBox_OnEnterPressed(self)
 	self:ClearFocus()
 end
 
-local function searchBox_OnTextChanged(self, text)
-	--LudwigUI_OnTextChanged(self, 'name')
+local function searchBox_OnTextChanged(self, isUserInput)
+	if isUserInput then
+		SearchFrame:SetSearchFilter('name', self:GetText())
+	end
 end
 
 local function searchBox_OnTabPressed(self)
@@ -118,8 +160,10 @@ local function minLevelSearchBox_OnEnterPressed(self)
 	self:ClearFocus()
 end
 
-local function minLevelSearchBox_OnTextChanged(self, text)
-	--LudwigUI_OnTextChanged(self, 'minLevel')
+local function minLevelSearchBox_OnTextChanged(self, isUserInput)
+	if isUserInput then
+		SearchFrame:SetSearchFilter('minLevel', tonumber(self:GetText()))
+	end
 end
 
 local function minLevelSearchBox_Create(name, parent)
@@ -143,8 +187,10 @@ local function maxLevelSearchBox_OnEnterPressed(self)
 	self:ClearFocus()
 end
 
-local function maxLevelSearchBox_OnTextChanged(self, text)
-	--LudwigUI_OnTextChanged(self, 'maxLevel')
+local function maxLevelSearchBox_OnTextChanged(self, isUserInput)
+	if isUserInput then
+		SearchFrame:SetSearchFilter('maxLevel', tonumber(self:GetText()))
+	end
 end
 
 local function maxLevelSearchBox_Create(name, parent)
@@ -162,6 +208,7 @@ end
 
 local function resetButton_OnClick(self, button)
 	--reset the search window
+	SearchFrame:ClearSearch()
 end
 
 local function resetButton_Create(name, parent)
@@ -176,30 +223,19 @@ local function resetButton_Create(name, parent)
 	return b
 end
 
+
 --[[ Scroll Frame ]]--
 
-local function scrollFrame_OnShow(self)
+local function scrollFrame_UpdateList(self)
+	SearchFrame:UpdateList()
 end
 
-local function scrollFrame_OnHide(self)
-end
-
-local function scrollFrame_OnVerticalScroll(self, ...)
-	print('OnVerticalScroll', offset)
-	local offset = ...
-	print(...)
---	FauxScrollFrame_OnVerticalScroll(self, offset, 15, function() print(...) end)
+local function scrollFrame_OnVerticalScroll(self, offset)
+	FauxScrollFrame_OnVerticalScroll(self, offset, ITEM_HEIGHT, scrollFrame_UpdateList)
 end
 
 local function scrollFrame_Create(name, parent)
 	local f = CreateFrame('ScrollFrame', name, parent, 'FauxScrollFrameTemplate')
-
---	local bg = f:CreateTexture()
---	bg:SetAllPoints(f)
---	bg:SetTexture(0, 1, 0)
-
-	f:SetScript('OnShow', scrollFrame_OnShow)
-	f:SetScript('OnHide', scrollFrame_OnHide)
 	f:SetScript('OnVerticalScroll', scrollFrame_OnVerticalScroll)
 
 	return f
@@ -210,6 +246,7 @@ end
 
 local function qualityFilter_OnClick(self, dropdown, ...)
 	UIDropDownMenu_SetSelectedValue(dropdown, self.value)
+	SearchFrame:SetSearchFilter('quality', self.value > -1 and self.value or nil)
 end
 
 local function qualityFilter_Initialize(self, level)
@@ -241,7 +278,7 @@ local function qualityFilter_Create(name, parent)
 end
 
 
---[[ Type FIlter ]]--
+--[[ Type Filter ]]--
 
 local function typeFilter_Create(name, parent)
 	local f = CreateFrame('Frame', name, parent, 'UIDropDownMenuTemplate')
@@ -254,11 +291,65 @@ end
 
 --[[ Search Frame ]]--
 
+local searchResults = Search:getItems()
+local function frame_UpdateList(self)
+	local numResults = #searchResults
+	_G[self:GetName() .. 'Title']:SetText(L.FrameTitle:format(numResults))
+
+	local offset = FauxScrollFrame_GetOffset(_G[self:GetName() .. 'ScrollFrame']) or 0
+
+	for i = 1, ITEMS_TO_DISPLAY do
+		local index = offset + i
+		if index > numResults then
+			local button = rawget(self.itemButtons, i)
+			if button then
+				button:Hide()
+			end
+		else
+			local button = self.itemButtons[i]
+			local itemId = searchResults[index]
+			local name, hex = ItemDB:GetItemName(itemId)
+
+			button.icon:SetTexture(GetItemIcon(itemId))
+			button:SetFormattedText('%s%s|r', hex, name)
+			button:SetID(itemId)
+			button:Show()
+		end
+	end
+
+	FauxScrollFrame_Update(
+		_G[self:GetName() .. 'ScrollFrame'],
+		numResults,
+		ITEMS_TO_DISPLAY,
+		ITEM_STEP,
+		self:GetName() .. 'Item',
+		300,
+		320,
+		nil,
+		nil,
+		nil,
+		false
+	)
+end
+
+local function frame_OnUpdate(self, elapsed)
+	if self.timer > 0 then
+		self.timer = self.timer - elapsed
+	else
+		self:SetScript('OnUpdate', nil)
+		searchResults = Search:getItems()
+		frame_UpdateList(self)
+	end
+end
+
 local function frame_OnShow(self)
+	searchResults = Search:getItems()
+	frame_UpdateList(self)
 	PlaySound('igCharacterInfoOpen')
 end
 
 local function frame_OnHide(self)
+	searchResults = nil
 	PlaySound('igCharacterInfoClose')
 end
 
@@ -309,9 +400,8 @@ local function frame_Create(name, parent)
 	br:SetTexture([[Interface\PaperDollInfoFrame\SkillFrame-BotRight]])
 
 	--add title text
-	local text = frame:CreateFontString(frameName .. 'Text', 'ARTWORK', 'GameFontHighlight')
+	local text = frame:CreateFontString(frameName .. 'Title', 'ARTWORK', 'GameFontHighlight')
 	text:SetSize(300, 14)
-	text:SetText(_G['TEXT'])
 	text:SetPoint('TOP', 0, -16)
 
 	--close button
@@ -351,6 +441,14 @@ local function frame_Create(name, parent)
 	local typeFilter = typeFilter_Create(frameName .. 'Type', frame)
 	typeFilter:SetPoint('BOTTOMLEFT', 110, 72)
 
+	--item buttons
+	frame.itemButtons = setmetatable({}, {__index = function(t, k)
+		local item = itemButton_Create(frameName .. 'Item' .. k, frame)
+		item:SetPoint('TOPLEFT', scrollFrame, 'TOPLEFT', 0, -item:GetHeight() * (k-1))
+		t[k] = item
+		return item
+	end})
+
 	return frame
 end
 
@@ -358,8 +456,6 @@ end
 --[[
 	UIFrame Module
 --]]
-
-local SearchFrame = Addon:NewModule('SearchFrame')
 
 function SearchFrame:Show()
 	local frame = self.frame
@@ -390,4 +486,51 @@ function SearchFrame:IsShown()
 		return self.frame:IsShown()
 	end
 	return false
+end
+
+
+--[[ Searching ]]--
+
+local function scheduleUpdate(self)
+	local frame = self.frame
+	if frame then
+		frame.timer = 0.3
+		frame:SetScript('OnUpdate', frame_OnUpdate)
+	end
+end
+
+function SearchFrame:SetSearchFilter(index, value)
+	print('setFilter', index, value)
+	if Search[index] ~= value then
+		Search[index] = value
+		scheduleUpdate(self)
+	end
+end
+
+function SearchFrame:ClearSearch()
+	--clear search values
+	Search:reset()
+
+	--clear ui values
+	local frame = self.frame
+	if frame then
+		local frameName = self.frame:GetName()
+		_G[frameName .. 'Search']:ClearFocus()
+		_G[frameName .. 'Search']:SetText(DEFAULT_SEARCH_TEXT)
+
+		_G[frameName .. 'MinLevel']:ClearFocus()
+		_G[frameName .. 'MinLevel']:SetText('')
+
+		_G[frameName .. 'MaxLevel']:ClearFocus()
+		_G[frameName .. 'MaxLevel']:SetText('')
+
+		UIDropDownMenu_SetSelectedValue(_G[frameName .. 'Quality'], -1)
+	end
+
+	--update the frame
+	scheduleUpdate(self)
+end
+
+function SearchFrame:UpdateList()
+	frame_UpdateList(self.frame)
 end
