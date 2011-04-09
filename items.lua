@@ -124,9 +124,9 @@ function LudwigDB:GetItems(search, quality, class, subClass, slot, minLevel, max
 end
 
 function LudwigDB:GetItemNamedLike(search)
-	search = '^'..search
+	search = strlower('^'..search)
 	for id, name in self:IterateItems() do
-		if strmatch(name, search) then
+		if strmatch(strlower(name), search) then
 			return id, name
 		end
 	end
@@ -141,7 +141,11 @@ end
 
 function LudwigDB:GetItemName(id)
 	if id then
-		local quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*'..id..';([^;]+)')
+		local quality, name = strmatch(Ludwig_Data, '(%d+)€'..id..';([^;]+)')
+		if not name then
+			quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*[^%d]'..id..';([^;]+)')
+		end
+		
 		if name then
 			return name, select(4, GetItemQualityColor(tonumber(quality)))
 		else
