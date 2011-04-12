@@ -12,6 +12,17 @@
 	:IterateItems(string)
 		iterates all items in the database or the given string, returning id and name
 		
+		
+	:IterateClasses()
+		iterates all classes and the strings containing their subclasses
+		
+	:IterateSubclasses(subclasses)
+		iterates all subclasses and the strings containing their slots in the given "subclasses string" (from :IterateClasses)
+		
+	:IterateSlots(slots)
+		iterates all slots in the given "slots string" (from :IterateSubclasses)
+		
+		
 	:GetItemName(id)
 		returns name, colorHex
 		
@@ -21,12 +32,16 @@
 
 LudwigDB = {}
 
-local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
+local Markers, Matchers, Iterators = {'{', '}', '$', '€', '£'}, {}, {}
 local ItemMatch = '(%d+);([^;]+)'
 local Caches, Values = {}, {}
 
 for i, marker in ipairs(Markers) do
 	Matchers[i] = marker..'[^'..marker..']+'
+end
+
+for i = 1, 3 do
+	Iterators[i] = '([%a%s]+)' .. '(' .. Matchers[i] .. ';)'
 end
 
 
@@ -137,7 +152,22 @@ function LudwigDB:IterateItems(section)
 end
 
 
---[[ Data API ]]--
+--[[ Categories API ]]--
+
+function LudwigDB:IterateClasses()
+	return gmatch(Ludwig_Data, Iterators[1])
+end
+
+function LudwigDB:IterateSubClasses(subs)
+	return gmatch(subs, Iterators[2])
+end
+
+function LudwigDB:IterateSlots(slots)
+	return gmatch(slots, Iterators[3])
+end
+
+
+--[[ Item API ]]--
 
 function LudwigDB:GetItemName(id)
 	if id then
