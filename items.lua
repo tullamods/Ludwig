@@ -11,6 +11,15 @@
 	:IterateItems(string)
 		iterates all items in the database or the given string, returning id and name
 
+	:IterateClasses()
+		iterates all classes and the strings containing their subclasses
+
+	:IterateSubclasses(subclasses)
+		iterates all subclasses and the strings containing their slots in the given "subclasses string" (from :IterateClasses)
+
+	:IterateSlots(slots)
+		iterates all slots in the given "slots string" (from :IterateSubclasses)
+
 	:GetItemName(id)
 		returns name, colorHex
 
@@ -20,7 +29,7 @@
 local AddonName, Addon = ...
 local ItemDB = Addon:NewModule('ItemDB')
 
-local Markers, Matchers = {'{', '}', '$', '€', '£'}, {}
+local Markers, Matchers, Iterators = {'{', '}', '$', '€', '£'}, {}, {}
 local ItemMatch = '(%d+);([^;]+)'
 local Caches, Values = {}, {}
 
@@ -28,20 +37,18 @@ for i, marker in ipairs(Markers) do
 	Matchers[i] = marker..'[^'..marker..']+'
 end
 
+for i = 1, 3 do
+	Iterators[i] = '([%a%s]+)' .. '(' .. Matchers[i] .. ';)'
+end
+
 local strsplit = strsplit
 local tinsert = table.insert
 local tonumber = tonumber
-
-local function loadData()
-	return EnableAddOn(AddonName .. '_Data') or LoadAddOn(AddonName .. '_Data')
-end
 
 
 --[[ Search API ]]--
 
 function ItemDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLevel)
-	if not loadData() then return end
-
 	local search = search and {strsplit(' ', strlower(search))}
 	local filters = {class, subClass, slot, quality}
 	local prevMin, prevMax = Values[5], Values[6]
@@ -133,28 +140,43 @@ function ItemDB:GetItems(search, quality, class, subClass, slot, minLevel, maxLe
 end
 
 function ItemDB:GetItemNamedLike(search)
-	search = '^'..search
+	local search = '^' .. search:lower()
 	for id, name in self:IterateItems() do
-		if strmatch(name, search) then
+		if name:lower():match(search) then
 			return id, name
 		end
 	end
 end
 
 function ItemDB:IterateItems(section)
-	if not loadData() then return end
-
-	return gmatch(section or Ludwig_Data, ItemMatch)
+	return (section or Ludwig_Data):gmatch(ItemMatch)
 end
 
 
---[[ Data API ]]--
+--[[ Categories API ]]--
+
+function ItemDB:IterateClasses()
+	return Ludwig_Data:gmatch(Iterators[1])
+end
+
+function ItemDB:IterateSubClasses(subs)
+	return subs:gmatch(Iterators[2])
+end
+
+function ItemDB:IterateSlots(slots)
+	return slots:gmatch(Iterators[3])
+end
+
+
+--[[ Item API ]]--
 
 function ItemDB:GetItemName(id)
-	if not loadData() then return end
-
 	if id then
-		local quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*'..id..';([^;]+)')
+		local quality, name = strmatch(Ludwig_Data, '(%d+)€'..id..';([^;]+)')
+		if not name then
+			quality, name = strmatch(Ludwig_Data, '(%d+)€[^€]*[^%d]'..id..';([^;]+)')
+		end
+
 		if name then
 			return name, select(4, GetItemQualityColor(tonumber(quality)))
 		else
