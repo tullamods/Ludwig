@@ -5,12 +5,16 @@
 
 local AddonName, Addon = ...; Ludwig = Addon
 local L = Addon('Locals')
-local ItemDB = Addon('ItemDB')
+local ItemDB, SearchFrame
 local MAX_RESULTS = 10
+
 
 --toggle the UI frame
 function Addon:ToggleSearchFrame()
-	self('SearchFrame'):Toggle()
+	if not self:LoadData() then
+		return
+	end
+	SearchFrame:Toggle()
 end
 
 --query and display an item that matches <id>
@@ -20,6 +24,10 @@ end
 
 --display a listing of all items matching <itemName>
 function Addon:SearchForItem(itemName)
+	if not self:LoadData() then
+		return
+	end
+
 	local startTime = GetTime()
 
 	local results = ItemDB:GetItems(itemName)
@@ -37,5 +45,13 @@ function Addon:SearchForItem(itemName)
 	else
 		--print
 		print(format(L.NoMatchingItems, itemName))
+	end
+end
+
+function Addon:LoadData()
+	if EnableAddOn(AddonName .. '_Data') or LoadAddOn(AddonName .. '_Data') then
+		ItemDB = self('ItemDB')
+		SearchFrame = self('SearchFrame')
+		self.LoadData = function() return true end
 	end
 end

@@ -6,8 +6,6 @@
 module.lua
 localization\localization.lua
 localization\localization.zhCN.lua
-items.lua
 slash.lua
 linkerator.lua
-frame.lua
 Ludwig.lua

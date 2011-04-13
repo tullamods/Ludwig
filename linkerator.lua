@@ -5,9 +5,18 @@
 --]]
 
 local AddonName, Addon = ...
-local ItemDB = Addon('ItemDB')
+local ItemDB
+
+local function loadItemDB()
+	if Addon:LoadData() then
+		ItemDB = Addon('ItemDB')
+		return true
+	end
+end
 
 local function onFullMatch(match)
+	if not ItemDB or loadItemDB() then return end
+
 	local id = ItemDB:GetItemNamedLike(match)
 	if id then
 		return ItemDB:GetItemLink(id)
@@ -16,6 +25,8 @@ local function onFullMatch(match)
 end
 
 local function onPartialMatch(match)
+	if not ItemDB or loadItemDB() then return end
+
 	local id, name = ItemDB:GetItemNamedLike(match)
 	if id then
 		return '[[' .. name
