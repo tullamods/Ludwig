@@ -53,5 +53,6 @@ function Addon:LoadData()
 		ItemDB = self('ItemDB')
 		SearchFrame = self('SearchFrame')
 		self.LoadData = function() return true end
+		return true
 	end
 end

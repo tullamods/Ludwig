@@ -15,17 +15,17 @@ local function loadItemDB()
 end
 
 local function onFullMatch(match)
-	if not ItemDB or loadItemDB() then return end
+	if not (ItemDB or loadItemDB()) then return end
 
 	local id = ItemDB:GetItemNamedLike(match)
 	if id then
-		return ItemDB:GetItemLink(id)
+		return ItemDB:GetItemLink(id)--:gsub("\124", "\124\124")
 	end
 	return match
 end
 
 local function onPartialMatch(match)
-	if not ItemDB or loadItemDB() then return end
+	if not (ItemDB or loadItemDB()) then return end
 
 	local id, name = ItemDB:GetItemNamedLike(match)
 	if id then
