@@ -4,22 +4,32 @@
 		Thanks to N00bZXI for the autocomplete changes
 --]]
 
+local AddonName, Addon = ...
+local ItemDB
+
+local function loadItemDB()
+	if Addon:LoadData() then
+		ItemDB = Addon('ItemDB')
+		return true
+	end
+end
+
 local function onFullMatch(match)
-	if Load_LudwigData() then
-		local id = LudwigDB:GetItemNamedLike(match)
-		if id then
-			return LudwigDB:GetItemLink(id)
-		end
+	if not (ItemDB or loadItemDB()) then return end
+
+	local id = ItemDB:GetItemNamedLike(match)
+	if id then
+		return ItemDB:GetItemLink(id)--:gsub("\124", "\124\124")
 	end
 	return match
 end
 
 local function onPartialMatch(match)
-	if Load_LudwigData() then
-		local id, name = LudwigDB:GetItemNamedLike(match)
-		if id then
-			return '[[' .. name
-		end
+	if not (ItemDB or loadItemDB()) then return end
+
+	local id, name = ItemDB:GetItemNamedLike(match)
+	if id then
+		return '[[' .. name
 	end
 	return '[[' .. match
 end
