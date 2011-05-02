@@ -4,12 +4,11 @@
 		Thanks to N00bZXI for the autocomplete changes
 --]]
 
-local AddonName, Addon = ...
 local ItemDB
 
 local function loadItemDB()
-	if Addon:LoadData() then
-		ItemDB = Addon('ItemDB')
+	if Ludwig:LoadData() then
+		ItemDB = Ludwig['ItemDB']
 		return true
 	end
 end
@@ -19,7 +18,7 @@ local function onFullMatch(match)
 
 	local id = ItemDB:GetItemNamedLike(match)
 	if id then
-		return ItemDB:GetItemLink(id)--:gsub("\124", "\124\124")
+		return ItemDB:GetItemLink(id)
 	end
 	return match
 end
@@ -38,9 +37,9 @@ local function chatFrame_OnChar(self, ...)
 	local text = self:GetText()
 	if text ~= '' then
 		if text:match('%[%[(.+)%]$') then
-			self:SetText(text:gsub('%[%[(.+)%]$', onFullMatch))
+			--self:SetText(text:gsub('%[%[(.+)%]$', onFullMatch))
 		else
-			self:SetText(text:gsub('%[%[(.+)$', onPartialMatch))
+			--self:SetText(text:gsub('%[%[(.+)$', onPartialMatch))
 			self:HighlightText(#text, -1)
 		end
 	end

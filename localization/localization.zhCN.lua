@@ -2,10 +2,11 @@
 	Chinese translation (zhCN) by lostcup @ NGACN
 --]]
 
-if GetLocale() ~= "zhCN" then return end
+if GetLocale() ~= "zhCN" then
+	return
+end
 
-local AddonName, Addon = ...
-local L = Addon('Locals')
+local L = Ludwig['Locals']
 
 --Keybinding text
 BINDING_HEADER_LUDWIG = "Ludwig"

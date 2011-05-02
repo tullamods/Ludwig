@@ -2,8 +2,7 @@
 	Localization for Ludwig
 --]]
 
-local AddonName, Addon = ...
-local L = Addon:NewModule('Locals')
+local L = Ludwig:NewModule('Locals')
 
 --Keybinding text
 BINDING_HEADER_LUDWIG = "Ludwig"

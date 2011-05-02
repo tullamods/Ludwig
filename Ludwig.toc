@@ -4,9 +4,8 @@
 ## Notes: Item Database
 ## Version: 2.0.0
 
-module.lua
-localization\localization.lua
-localization\localization.zhCN.lua
+Ludwig.lua
 slash.lua
 linkerator.lua
-Ludwig.lua
+localization\localization.lua
+localization\localization.zhCN.lua
