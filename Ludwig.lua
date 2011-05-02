@@ -6,15 +6,14 @@
 local AddonName, Ludwig = ...
 local MAX_RESULTS = 10
 
-function Ludwig:ToggleFrame()
-	if self:LoadData() then
+function Ludwig:ToggleWindow()
+	if LoadAddOn(AddonName .. '_Window') then
 		self['Frame']:Toggle()
 	end
 end
 
 function Ludwig:LoadData()
-	EnableAddOn(AddonName .. '_Data')
-	return LoadAddOn(AddonName .. '_Data')
+	return LoadAddOn(AddonName .. '_Data') and Ludwig['ItemDB']
 end
 
 function Ludwig:NewModule(id, obj)
@@ -24,3 +23,5 @@ function Ludwig:NewModule(id, obj)
 end
 
 _G['Ludwig'] = Ludwig
+EnableAddOn(AddonName .. '_Data')
+EnableAddOn(AddonName .. '_Window')

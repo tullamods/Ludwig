@@ -23,12 +23,12 @@ local queryItem = function(id)
 end
 
 local searchItem = function(name)
-	if not self:LoadData() then
+	local ItemDB = self:LoadData()
+	local startTime = GetTime()
+	
+	if not ItemDB then
 		return
 	end
-
-	local ItemDB = Ludwig['Data']
-	local startTime = GetTime()
 
 	--[[local results = ItemDB:GetItems(itemName)
 	if #results > 0 then
@@ -50,7 +50,7 @@ end
 
 SlashCmdList['LudwigSlashCOMMAND'] = function(msg)
 	if not msg or msg == '' then
-		Ludwig:ToggleFrame()
+		Ludwig:ToggleWindow()
 	else
 		local cmd = msg:lower():match('%-%-([%w%s]+)')
 		if cmd then

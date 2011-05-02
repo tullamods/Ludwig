@@ -4,17 +4,11 @@
 		Thanks to N00bZXI for the autocomplete changes
 --]]
 
-local ItemDB
-
-local function loadItemDB()
-	if Ludwig:LoadData() then
-		ItemDB = Ludwig['ItemDB']
-		return true
-	end
-end
-
 local function onFullMatch(match)
-	if not (ItemDB or loadItemDB()) then return end
+	local ItemDB = self:LoadData()
+	if not ItemDB then
+		return
+	end
 
 	local id = ItemDB:GetItemNamedLike(match)
 	if id then
@@ -24,7 +18,10 @@ local function onFullMatch(match)
 end
 
 local function onPartialMatch(match)
-	if not (ItemDB or loadItemDB()) then return end
+	local ItemDB = self:LoadData()
+	if not ItemDB then
+		return
+	end
 
 	local id, name = ItemDB:GetItemNamedLike(match)
 	if id then

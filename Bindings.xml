@@ -1,7 +1,7 @@
 <Bindings>
 	<Binding name="LUDWIG_SHOW" header="LUDWIG">
 		if keystate == 'down' then
-			Ludwig:ToggleFrame()
+			Ludwig:ToggleWindow()
 		end
 	</Binding>
 </Bindings>
