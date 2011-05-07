@@ -5,31 +5,26 @@
 --]]
 
 local AddonName, Addon = ...
-local ItemDB
 
-local function loadItemDB()
-	if Addon:LoadData() then
-		ItemDB = Addon('ItemDB')
-		return true
+local function getBestMatch(match)
+	local results = Addon:GetItemsByName('^' .. match)
+	if results then
+		return results[1]
 	end
 end
 
 local function onFullMatch(match)
-	if not (ItemDB or loadItemDB()) then return end
-
-	local id = ItemDB:GetItemNamedLike(match)
-	if id then
-		return ItemDB:GetItemLink(id)--:gsub("\124", "\124\124")
+	local item = getBestMatch(match)
+	if item then
+		return Addon('ItemDB'):GetItemLink(item.id, item.name, item.hex)
 	end
-	return match
+	return '[[' .. match
 end
 
 local function onPartialMatch(match)
-	if not (ItemDB or loadItemDB()) then return end
-
-	local id, name = ItemDB:GetItemNamedLike(match)
-	if id then
-		return '[[' .. name
+	local item = getBestMatch(match)
+	if item then
+		return '[[' .. item.name
 	end
 	return '[[' .. match
 end
