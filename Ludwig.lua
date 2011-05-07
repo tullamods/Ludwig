@@ -11,10 +11,9 @@ local MAX_RESULTS = 10
 
 --toggle the UI frame
 function Addon:ToggleSearchFrame()
-	if not self:LoadData() then
-		return
+	if self:LoadWindow() then
+		SearchFrame:Toggle()
 	end
-	SearchFrame:Toggle()
 end
 
 --query and display an item that matches <id>
@@ -48,10 +47,22 @@ function Addon:SearchForItem(itemName)
 	end
 end
 
-function Addon:LoadData()
-	if EnableAddOn(AddonName .. '_Data') or LoadAddOn(AddonName .. '_Data') then
-		ItemDB = self('ItemDB')
+local function loadSubAddon(addonName)
+	EnableAddOn(addonName)
+	return LoadAddOn(addonName)
+end
+
+function Addon:LoadWindow()
+	if loadSubAddon(addonName) then
 		SearchFrame = self('SearchFrame')
+		self.LoadWindow = function() return true end
+		return true
+	end
+end
+
+function Addon:LoadData()
+	if loadSubAddon(addonName) then
+		ItemDB = self('ItemDB')
 		self.LoadData = function() return true end
 		return true
 	end
