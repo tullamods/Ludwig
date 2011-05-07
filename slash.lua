@@ -12,7 +12,7 @@
 --]]
 
 local AddonName, Ludwig = ...
-local L = Ludwig('Locals')
+local L = Ludwig['Locals']
 
 local printMsg = function(...)
 	print(AddonName, ...)
