@@ -1,0 +1,48 @@
+====== 2.0.2
+* Jaliborc: Completly rewritten the categories dropdown to fix a bug
+
+====== 2.0.1
+* Jaliborc: Updated for patch 4.2
+* Jaliborc: Included all Firelands items
+
+===== 2.0.0
+* Jaliborc: Now works with 4.1
+* Jaliborc: Completely redesigned and improved
+* Jaliborc: Includes **all** items in-game right from the start
+* Jaliborc: Searches trough thousands of items in a blaze
+* Jaliborc: Mostly //Load on Demand//
+* Jaliborc: Only works on English clients. Versions for other clients should be released in a close future.
+
+====== 1.8.7
+* Added linkerator support for multiple chat frames
+
+====== 1.8.6
+* Fixed a bug when linking an item from the chat frame. 
+
+====== 1.8.5
+* Added compatibility with WoW 3.3.5
+
+====== 1.8.3
+* Bumped TOC for 3.3
+
+====== 1.8.2
+* Bumped TOC for 3.2
+
+====== 1.8.1
+* TOC Bump + Potential WIM bugfix
+
+===== 1.8.0
+* Added "Heirloom" option to quality selector
+* Fixed a bug causing the DB to be reloaded on item scroll
+* Cleaned up the code a bit.  Still need to work on the GUI/localization
+* Altered slash commands.  See addon description for details.
+
+====== 1.7.2
+* Bumped the max item ID to check from 40k to 60k.  Glyphs, etc, should now appear.
+
+====== 1.7.1
+* Fixed a crash issue when linking tradeskills
+
+===== 1.7.0
+* Made Wrath compatible
+* Seems to be causing a lot more CPU usage now, will investigate later.

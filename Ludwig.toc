@@ -1,8 +1,9 @@
-## Interface: 40100
-## Title: Ludwig
+## Interface: 40200
+## Title: |cff20ff20Ludwig|r
 ## Author: Tuller & Jaliborc (João Libório)
 ## Notes: Item Database
-## Version: 4.1.beets
+## Version: 2.0.2
+
 module.lua
 localization\localization.lua
 localization\localization.zhCN.lua
