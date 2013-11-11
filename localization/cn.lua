@@ -7,10 +7,7 @@ if GetLocale() ~= "zhCN" then return end
 local AddonName, Addon = ...
 local L = Addon('Locals')
 
---Keybinding text
-BINDING_HEADER_LUDWIG = "Ludwig"
-BINDING_NAME_LUDWIG_SHOW = "Show Ludwig"
-
+--UI text
 L.FrameTitle = "Ludwig: %d件物品"
 
 --filters

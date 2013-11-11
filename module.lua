@@ -3,7 +3,6 @@
 
 	Usage:
 		local module = Addon('moduleId') or Addon:GetModule('moduleId')
-
 		local module = Addon:NewModule('moduleId')
 
 		for name, module in Addon:IterateModules() do

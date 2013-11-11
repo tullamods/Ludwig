@@ -1,3 +1,26 @@
+====== 5.4.0
+* Updated for Siege of Ogrimmar.
+
+===== 5.3.0
+* Updated for patch Escalation.
+
+====== 5.2.1
+* Added some missing items. 
+
+===== 5.2.0
+* Updated database for patch The Thunder King.
+
+====== 2.0.5
+* Updated database to patch 5.1: Landfall.
+
+====== 2.0.4
+* Updated database for Mists of Pandaria
+
+====== 2.0.3
+* Jaliborc: Fixed a bug causing wrong items to be shown for leather, mail and plate slots
+* Jaliborc: Items are now organized by level as well
+* Jaliborc: No more "Jaliborc:" tag from now on. If no tag is here, it means it was me.
+
 ====== 2.0.2
 * Jaliborc: Completly rewritten the categories dropdown to fix a bug
 
@@ -45,4 +68,4 @@
 
 ===== 1.7.0
 * Made Wrath compatible
-* Seems to be causing a lot more CPU usage now, will investigate later.
+* Seems to be causing a lot more CPU usage now, will investigate later
