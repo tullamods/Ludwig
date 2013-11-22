@@ -6,25 +6,19 @@
 
 local AddonName, Addon = ...
 
-local function getBestMatch(match)
-	local results = Addon:GetItemsByName('^' .. match)
-	if results then
-		return results[1]
-	end
-end
-
 local function onFullMatch(match)
-	local item = getBestMatch(match)
-	if item then
-		return Addon('ItemDB'):GetItemLink(item.id, item.name, item.hex)
+	local id, name = Addon:GetClosestItem(match)
+	if id then
+		return Addon('ItemDB'):GetItemLink(id, name, '|cffffffff')
 	end
+
 	return '[[' .. match
 end
 
 local function onPartialMatch(match)
-	local item = getBestMatch(match)
-	if item then
-		return '[[' .. item.name
+	local _, name = Addon:GetClosestItem(match)
+	if name then
+		return '[[' .. name
 	end
 	return '[[' .. match
 end
