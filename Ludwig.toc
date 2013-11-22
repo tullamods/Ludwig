@@ -2,7 +2,7 @@
 ## Title: |cffbd40bdLudwig|r
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Item Database
-## Version: 5.3.0
+## Version: 5.4.0
 
 module.lua
 localization\en.lua

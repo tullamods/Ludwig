@@ -32,7 +32,7 @@ end
 local function chatFrame_OnChar(self, ...)
 	local text = self:GetText()
 	if text ~= '' then
-		if text:match('%[%[(.+)%]$') then
+		if text:find('%[%[(.+)%]$') then
 			self:SetText(text:gsub('%[%[(.+)%]$', onFullMatch))
 		else
 			self:SetText(text:gsub('%[%[(.+)$', onPartialMatch))
