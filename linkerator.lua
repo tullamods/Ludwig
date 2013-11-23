@@ -6,17 +6,23 @@
 
 local AddonName, Addon = ...
 
+local function getClosestItem(...)
+	if Addon:LoadData() then
+		return Addon('ItemDB'):GetClosestItem(...)
+	end
+end
+
 local function onFullMatch(match)
-	local id, name = Addon:GetClosestItem(match)
+	local id, name, quality = getClosestItem(match)
 	if id then
-		return Addon('ItemDB'):GetItemLink(id, name, '|cffffffff')
+		return Addon('ItemDB'):GetItemLink(id, name, quality)
 	end
 
 	return '[[' .. match
 end
 
 local function onPartialMatch(match)
-	local _, name = Addon:GetClosestItem(match)
+	local _, name = getClosestItem(match)
 	if name then
 		return '[[' .. name
 	end
