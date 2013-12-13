@@ -1,3 +1,9 @@
+====== 5.4.1
+* Fixed all isues preventing the linkerator from working properly.
+** Links can now be posted to chat.** Whitespace characters are no longer ignored.
+* Largely optimized linkerator's performance (about 15 times faster). It now delivers results in realtime.* Reduced database size by 10%. This means less memory usage and slighly faster searches.
+* Improved search by level performance.
+
 ====== 5.4.0
 * Updated for Siege of Ogrimmar.
 
