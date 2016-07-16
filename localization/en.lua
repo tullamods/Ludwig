@@ -23,6 +23,7 @@ L.TradeGoods = "Trade Goods"
 
 --Slash command responses
 L.UnknownCommand = "\"%s\" is an unknown command"
+L.MissingNumber = "Missing item id to query for"
 L.NoMatchingItems = "There are no items matching '%s'"
 L.NumMatching = "There are %d items matching '%s':"
 L.GenTime = "Generated in %.3f seconds"

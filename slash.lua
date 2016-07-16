@@ -9,17 +9,21 @@
 			queries the game for and displays the link of <itemID>
 --]]
 
-local AddonName, Addon = ...
+local ADDON, Addon = ...
 local L = Addon('Locals')
 
-SlashCmdList['LudwigCOMMAND'] = function(msg)
-	local cmd = (msg or ''):lower():match('%-([%w%s]+)')
+SlashCmdList['LudwigCOMMAND'] = function(msg, ...)
+	local cmd = (msg or ''):lower():match('([%w%s]+)')
 	if cmd then
-		local id = cmd:match('q %d+')
-		if id then
-			Addon:QueryItem(id)
+		if cmd:sub(1,1) == 'q' then
+			local id = cmd:match('q (%d+)')
+			if id then
+				Addon:QueryItem(id)
+			else
+				print(ADDON ..': '.. L.MissingNumber)
+			end
 		else
-			print(AddonName, L.UnknownCommand:format(cmd))
+			print(ADDON ..': '.. L.UnknownCommand:format(cmd))
 		end
 	else
 		Addon:ToggleSearchFrame()

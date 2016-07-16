@@ -1,12 +1,17 @@
-## Interface: 50400
+## Interface: 60100
 ## Title: |cffbd40bdLudwig|r
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Item Database
-## Version: 5.4.1
+## Version: 6.0.2
+
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 module.lua
 localization\en.lua
 localization\cn.lua
 slash.lua
 linkerator.lua
+broker.lua
 Ludwig.lua
