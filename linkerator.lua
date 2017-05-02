@@ -4,18 +4,18 @@
 		Thanks to N00bZXI for the autocomplete changes
 --]]
 
-local AddonName, Addon = ...
+local ADDON, Addon = ...
 
 local function getClosestItem(...)
 	if Addon:LoadData() then
-		return Addon('ItemDB'):GetClosestItem(...)
+		return Addon('Database'):FindClosestItem(...)
 	end
 end
 
 local function onFullMatch(match)
 	local id, name, quality = getClosestItem(match)
 	if id then
-		return Addon('ItemDB'):GetItemLink(id, name, quality)
+		return Addon('Database'):GetItemLink(id, name, quality)
 	end
 
 	return '[[' .. match
