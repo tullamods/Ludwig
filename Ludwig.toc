@@ -1,8 +1,8 @@
-## Interface: 70100
+## Interface: 70200
 ## Title: |cffbd40bdLudwig|r
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Item Database
-## Version: 7.1.0
+## Version: 7.2.0
 
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.lua

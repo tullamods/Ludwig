@@ -8,14 +8,14 @@ local ADDON, Addon = ...
 
 local function getClosestItem(...)
 	if Addon:LoadData() then
-		return Addon('Database'):FindClosestItem(...)
+		return Addon('Database'):FindClosest(...)
 	end
 end
 
 local function onFullMatch(match)
 	local id, name, quality = getClosestItem(match)
 	if id then
-		return Addon('Database'):GetItemLink(id, name, quality)
+		return Addon('Database'):GetLink(id, name, quality)
 	end
 
 	return '[[' .. match

@@ -1,3 +1,9 @@
+#### 7.2.0
+* Major update! Ludwig database is now available in 12 different locales!
+  - All locales are included in download. At startup, Ludwig detects your client locale and loads the corresponding database.
+  - Localization data obtained directly from Blizzard's database.
+* Updated item database to Tomb of Sargeras.
+
 #### 7.1.0
 * Updated for Return to Kharazan.
 * Updated item database.
@@ -30,8 +36,8 @@
 
 ##### 5.4.1
 * Fixed all isues preventing the linkerator from working properly.
-** Links can now be posted to chat.
-** Whitespace characters are no longer ignored.
+  - Links can now be posted to chat.
+  - Whitespace characters are no longer ignored.
 * Largely optimized linkerator's performance (about 15 times faster). It now delivers results in realtime.
 * Reduced database size by 10%. This means less memory usage and slighly faster searches.
 * Improved search by level performance.
@@ -43,7 +49,7 @@
 * Updated for patch Escalation.
 
 ##### 5.2.1
-* Added some missing items. 
+* Added some missing items.
 
 #### 5.2.0
 * Updated database for patch The Thunder King.
@@ -55,30 +61,30 @@
 * Updated database for Mists of Pandaria
 
 ##### 2.0.3
-* Jaliborc: Fixed a bug causing wrong items to be shown for leather, mail and plate slots
-* Jaliborc: Items are now organized by level as well
-* Jaliborc: No more "Jaliborc:" tag from now on. If no tag is here, it means it was me.
+* Fixed a bug causing wrong items to be shown for leather, mail and plate slots
+* Items are now organized by level as well
+* No more "Jaliborc:" tag from now on. If no tag is here, it means it was me.
 
 ##### 2.0.2
-* Jaliborc: Completly rewritten the categories dropdown to fix a bug
+* Completly rewritten the categories dropdown to fix a bug
 
 ##### 2.0.1
-* Jaliborc: Updated for patch 4.2
-* Jaliborc: Included all Firelands items
+* Updated for patch 4.2
+* Included all Firelands items
 
 #### 2.0.0
-* Jaliborc: Now works with 4.1
-* Jaliborc: Completely redesigned and improved
-* Jaliborc: Includes **all** items in-game right from the start
-* Jaliborc: Searches trough thousands of items in a blaze
-* Jaliborc: Mostly //Load on Demand//
-* Jaliborc: Only works on English clients. Versions for other clients should be released in a close future.
+* Now works with 4.1
+* Completely redesigned and improved
+* Includes **all** items in-game right from the start
+* Searches trough thousands of items in a blaze
+* Mostly //Load on Demand//
+* Only works on English clients. Versions for other clients should be released in a close future.
 
 ##### 1.8.7
 * Added linkerator support for multiple chat frames
 
 ##### 1.8.6
-* Fixed a bug when linking an item from the chat frame. 
+* Fixed a bug when linking an item from the chat frame.
 
 ##### 1.8.5
 * Added compatibility with WoW 3.3.5
