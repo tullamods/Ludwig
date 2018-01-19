@@ -1,4 +1,4 @@
-![Preview](http://jaliborc.com/images/addons/slides/ludwig.jpg#1)
+![Preview](http://jaliborc.com/images/addons/large/ludwig/search-beauty.jpg)
 
 [![Install](http://jaliborc.com/images/external/twitch_client.png)](https://www.curseforge.com/wow/addons/ludwig/download?client=y) [![Patreon](http://jaliborc.com/images/external/patreon.png#1)](https://www.patreon.com/jaliborc)
 
