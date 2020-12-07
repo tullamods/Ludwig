@@ -1,0 +1,7 @@
+<Ui>
+	<Script file="dropdowns.lua"/>
+  <Script file="editboxes.lua"/>
+  <Script file="others.lua"/>
+
+  <Script file="frame.lua"/>
+</Ui>

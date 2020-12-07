@@ -1,17 +1,7 @@
 ## Interface: 11305
 ## Title: |cffbd40bdLudwig|r
 ## Author: Tuller & Jaliborc (João Cardoso)
-## Notes: Item Database
+## Notes: Searchable ingame item database
 ## Version: 9.0
 
-libs\LibStub\LibStub.lua
-libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
-
-module.lua
-localization\en.lua
-localization\cn.lua
-slash.lua
-linkerator.lua
-broker.lua
-Ludwig.lua
+addons\main\main.xml

@@ -1,0 +1,13 @@
+<Ui>
+	<Script file="..\..\libs\LibStub\LibStub.lua"/>
+  <Script file="..\..\libs\CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
+  <Script file="..\..\libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+
+	<Script file="module.lua"/>
+	<Script file="locales\en.lua"/>
+	<Script file="locales\cn.lua"/>
+  <Script file="slash.lua"/>
+  <Script file="linkerator.lua"/>
+  <Script file="broker.lua"/>
+  <Script file="main.lua"/>
+</Ui>
