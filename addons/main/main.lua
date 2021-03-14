@@ -3,7 +3,7 @@
 		Ludwig's globally accessible methods
 --]]
 
-local AddonName, Addon = ...; Ludwig = Addon
+local ADDON, Addon = ...; Ludwig = Addon
 local L = Addon('Locals')
 local MAX_RESULTS = 10
 
@@ -38,6 +38,6 @@ function Addon:LoadData()
 end
 
 function Addon:LoadSub(name)
-	EnableAddOn(AddonName .. name)
-	return LoadAddOn(AddonName .. name)
+	EnableAddOn(ADDON .. name)
+	return LoadAddOn(ADDON .. name)
 end

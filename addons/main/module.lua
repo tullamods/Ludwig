@@ -10,7 +10,7 @@
 		end
 --]]
 
-local AddonName, Addon = ...
+local ADDON, Addon = ...
 local modules = {}
 
 Addon.GetModule = function(self, name, silent)

@@ -1,28 +1,31 @@
-#### 9.0
+##### 9.0.1
+* Updated for WoW patches 9.0.5 and 1.13.6.
+
+#### 9.0.0
 * Updated for Shadowlands and Classic servers.
 
-##### 8.2
+#### 8.2.0
 * Updated for World of Warcraft patch 8.2.0.
 
-#### 8.0
+#### 8.0.0
 * Updated for Battle for Azeroth.
 * Updated item database.
 
-#### 7.3
+#### 7.3.0
 * Updated for Shadow of Argus.
 * Updated item database.
 
-#### 7.2
+#### 7.2.0
 * Major update! Ludwig database is now available in 12 different locales!
   - All locales are included in download. At startup, Ludwig detects your client locale and loads the corresponding database.
   - Localization data obtained directly from Blizzard's database.
 * Updated item database to Tomb of Sargeras.
 
-#### 7.1
+#### 7.1.0
 * Updated for Return to Kharazan.
 * Updated item database.
 
-#### 7.0
+#### 7.0.0
 * This version fixes all previous issues with the database.
 * Completly rewrote database generation procedure.
 * Redesigned database storage.
@@ -30,7 +33,7 @@
 * Item category dropdown contents are now generated on demand.
 * Updated for Legion.
 
-##### 6.1
+#### 6.1.0
 * Updated for WoW 6.1.
 * Fixed issue with frame positioning.
 
@@ -42,7 +45,7 @@
 ##### 6.0.1
 * Updated database with new items and categories.
 
-##### 6.0.0
+#### 6.0.0
 * Updated for The Iron Tide.
 
 ##### 5.4.2
@@ -56,7 +59,7 @@
 * Reduced database size by 10%. This means less memory usage and slighly faster searches.
 * Improved search by level performance.
 
-##### 5.4.0
+#### 5.4.0
 * Updated for Siege of Ogrimmar.
 
 #### 5.3
