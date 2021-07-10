@@ -1,3 +1,10 @@
+##### 9.1.1
+* Now has item list for Burning Crusade servers.
+* Updated retail item list.
+
+#### 9.1.0
+* Updated for Chains of Domination.
+
 ##### 9.0.1
 * Updated for WoW patches 9.0.5 and 1.13.6.
 
