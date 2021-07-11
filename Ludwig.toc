@@ -2,6 +2,6 @@
 ## Title: |cffbd40bdLudwig|r
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Searchable ingame item database
-## Version: 9.1.1
+## Version: 9.1.2
 
 addons\main\main.xml

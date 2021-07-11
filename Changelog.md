@@ -1,3 +1,6 @@
+##### 9.1.2
+* Fixed issue causing *Hands* item subcategory to be missing from the menu.
+
 ##### 9.1.1
 * Now has item list for Burning Crusade servers.
 * Updated retail item list.
