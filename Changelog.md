@@ -1,3 +1,6 @@
+##### 9.1.3
+* Updated data for Shadowlands 9.1.5.
+
 ##### 9.1.2
 * Fixed issue causing *Hands* item subcategory to be missing from the menu.
 
