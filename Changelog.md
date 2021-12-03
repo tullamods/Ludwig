@@ -1,3 +1,6 @@
+##### 9.1.4
+* Updated chinese locales.
+
 ##### 9.1.3
 * Updated data for Shadowlands 9.1.5.
 
