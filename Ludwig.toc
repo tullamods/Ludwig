@@ -1,7 +1,7 @@
-## Interface: 20502
+## Interface: 11403
 ## Title: |cffbd40bdLudwig|r
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Searchable ingame item database
-## Version: 9.1.4
+## Version: 9.2
 
 addons\main\main.xml

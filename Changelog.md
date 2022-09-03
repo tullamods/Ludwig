@@ -1,3 +1,6 @@
+#### 9.2
+* Updated for Wrath of the Lich King and Eternity's End
+
 ##### 9.1.4
 * Updated chinese locales.
 
