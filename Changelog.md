@@ -1,3 +1,9 @@
+#### 10.0
+* Updated for Dragonflight pre-patch.
+* Fixed issue with autocomplete that prevented linking friends.
+* Modernized window design and implementation.
+* Window proportions and texture work now adapt to the current expansion.
+
 #### 9.2
 * Updated for Wrath of the Lich King and Eternity's End
 

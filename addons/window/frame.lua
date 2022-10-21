@@ -58,6 +58,7 @@ function Frame:Startup()
 
 	self.Startup = nil
 	self:EnableMouse(true)
+	self:SetSize(384, LE_EXPANSION_LEVEL_CURRENT > 4 and 530 or 425)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:Hide()

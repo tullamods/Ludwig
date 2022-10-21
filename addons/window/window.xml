@@ -39,7 +39,6 @@
 	</Button>
 
 	<Frame name="LudwigFrameTemplate" inherits="ButtonFrameTemplate" virtual="true">
-		<Size x="384" y="530"/>
 		<Frames>
 			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
 				<Anchors>
