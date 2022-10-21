@@ -116,7 +116,7 @@ local function category_GetText(self)
 end
 
 function Dropdowns:CreateCategory(parent)
-	return self:Create('Category', 200, category_Initialize, category_Select, category_GetText, parent)
+	return self:Create('Category', 245, category_Initialize, category_Select, category_GetText, parent)
 end
 
 

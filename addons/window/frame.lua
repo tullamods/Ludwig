@@ -1,123 +1,66 @@
-local Ludwig = _G['Ludwig']
-local Frame = Ludwig:NewModule('Frame', CreateFrame('Frame', 'LudwigFrame', UIParent))
+local Frame = Ludwig:NewModule('Frame', CreateFrame('Frame', 'LudwigFrame', UIParent, 'LudwigFrameTemplate'))
 local L = Ludwig.Locals
 
 local filters, numResults, ids, names = {}, 0
-local ITEMS_TO_DISPLAY = 15
-local ITEM_STEP = 22
 
 
 --[[ Startup ]]--
 
 function Frame:Startup()
-	self:Hide()
+	-- portrait
+	local portrait = self.portrait or self.PortraitContainer.portrait
+	portrait:SetTexture('Interface/Icons/INV_Misc_Book_04')
 
-	--set attributes
-	self:SetScript('OnShow', self.OnShow)
-	self:SetScript('OnHide', self.OnHide)
-	self.Startup = nil
+	local backdrop = portrait:GetParent():CreateTexture(nil, 'BORDER')
+	backdrop:SetColorTexture(0, 0, 0)
+	backdrop:SetAllPoints(portrait)
 
-	self:SetHitRectInsets(0, 35, 0, 75)
-	self:SetSize(384, 512)
-	self:EnableMouse(true)
+	local mask = portrait:GetParent():CreateMaskTexture()
+	mask:SetTexture('Interface/CHARACTERFRAME/TempPortraitAlphaMask')
+	mask:SetAllPoints(backdrop)
+	backdrop:AddMaskTexture(mask)
+	portrait:AddMaskTexture(mask)
 
+	-- top search
+	self.SearchBox = Ludwig.Editboxes:CreateSearch(self)
+	self.SearchBox:SetPoint('TOPLEFT', 74, -34)
+	self.MinLevel = Ludwig.Editboxes:CreateMinLevel(self)
+	self.MinLevel:SetPoint('LEFT', self.SearchBox, 'RIGHT', 12, 0)
+
+	self.MaxLevel = Ludwig.Editboxes:CreateMaxLevel(self)
+	self.MaxLevel:SetPoint('LEFT', self.MinLevel, 'RIGHT', 12, 0)
+
+	self.Hyphen = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall')
+	self.Hyphen:SetPoint('LEFT', self.MinLevel, 'RIGHT', 1, 0)
+	self.Hyphen:SetText('-')
+
+	self.ResetButton = Ludwig.Others:CreateResetButton(self)
+	self.ResetButton:SetPoint('LEFT', self.MaxLevel, 'RIGHT', -2, -2)
+
+	-- bottom filters
+	self.Quality = Ludwig.Dropdowns:CreateQuality(self)
+	self.Quality:SetPoint('BOTTOMLEFT', -10, -3)
+	self.Category = Ludwig.Dropdowns:CreateCategory(self)
+	self.Category:SetPoint('BOTTOMRIGHT', 10, -3)
+
+	-- frame itself
 	self:SetAttribute('UIPanelLayout-defined', true)
 	self:SetAttribute('UIPanelLayout-enabled', true)
 	self:SetAttribute('UIPanelLayout-whileDead', true)
 	self:SetAttribute('UIPanelLayout-area', 'left')
 	self:SetAttribute('UIPanelLayout-pushable', 1)
 	self:SetAttribute('UIPanelLayout-xoffset', 0)
+
 	tinsert(UISpecialFrames, self:GetName())
-
-	--icon
-	local icon = self:CreateTexture(nil, 'BACKGROUND')
-	icon:SetSize(62, 62)
-	icon:SetPoint('TOPLEFT', 5, -5)
-	SetPortraitToTexture(icon, [[Interface\Icons\INV_Misc_Book_04]])
-
-	--background textures
-	local tl = self:CreateTexture(nil, 'ARTWORK')
-	tl:SetSize(256, 256)
-	tl:SetPoint('TOPLEFT')
-	tl:SetTexture([[Interface\TaxiFrame\UI-TaxiFrame-TopLeft]])
-
-	local tr = self:CreateTexture(nil, 'ARTWORK')
-	tr:SetSize(128, 256)
-	tr:SetPoint('TOPRIGHT')
-	tr:SetTexture([[Interface\TaxiFrame\UI-TaxiFrame-TopRight]])
-
-	local bl = self:CreateTexture(nil, 'ARTWORK')
-	bl:SetSize(256, 256)
-	bl:SetPoint('BOTTOMLEFT')
-	bl:SetTexture([[Interface\PaperDollInfoFrame\SkillFrame-BotLeft]])
-
-	local br = self:CreateTexture(nil, 'ARTWORK')
-	br:SetSize(128, 256)
-	br:SetPoint('BOTTOMRIGHT')
-	br:SetTexture([[Interface\PaperDollInfoFrame\SkillFrame-BotRight]])
-
-	--add title text
-	local title = self:CreateFontString('$parentTitle', 'ARTWORK', 'GameFontHighlight')
-	title:SetSize(300, 14)
-	title:SetPoint('TOP', 0, -16)
-	self.title = title
-
-	--close button
-	local closeButton = CreateFrame('Button', '$parentCloseButton', self, 'UIPanelCloseButton')
-	--closeButton:SetPoint('TOPRIGHT', -29, -8)
-	closeButton:SetPoint('TOPRIGHT', -34, -12)
-
-	--search box
-	local search = Ludwig.Editboxes:CreateSearch(self)
-	search:SetPoint('TOPLEFT', 84, -44)
-	self.search = search
-
-	--level search
-	local minLevel = Ludwig.Editboxes:CreateMinLevel(self)
-	minLevel:SetPoint('LEFT', search, 'RIGHT', 12, 0)
-	self.minLevel = minLevel
-
-	local hyphenText = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall')
-	hyphenText:SetText('-')
-	hyphenText:SetPoint('LEFT', minLevel, 'RIGHT', 1, 0)
-
-	local maxLevel = Ludwig.Editboxes:CreateMaxLevel(self)
-	maxLevel:SetPoint('LEFT', minLevel, 'RIGHT', 12, 0)
-	self.maxLevel = maxLevel
-
-	--reset button
-	local resetButton = Ludwig.Others:CreateResetButton(self)
-	resetButton:SetPoint('LEFT', maxLevel, 'RIGHT', -2, -2)
-
-	--scroll area
-	local scrollFrame = Ludwig.Others:CreateScrollFrame(self)
-	scrollFrame:SetPoint('TOPLEFT', 24, -78)
-	scrollFrame:SetPoint('BOTTOMRIGHT', -68, 106)
-	self.scrollFrame = scrollFrame
-
-	--quality filter
-	local quality = Ludwig.Dropdowns:CreateQuality(self)
-	quality:SetPoint('BOTTOMLEFT', 0, 72)
-	self.quality = quality
-
-	--category filter
-	local category = Ludwig.Dropdowns:CreateCategory(self)
-	category:SetPoint('BOTTOMLEFT', 110, 72)
-	self.category = category
-
-	--item buttons
-	local items = {}
-	for i = 1, ITEMS_TO_DISPLAY do
-		local item = Ludwig.Others:CreateItemButton(self, i)
-		item:SetPoint('TOPLEFT', scrollFrame, 'TOPLEFT', 0, -item:GetHeight() * (i-1))
-		items[i] = item
-	end
-	self.itemButtons = items
-
-	-- clean modules
 	wipe(Ludwig.Dropdowns)
 	wipe(Ludwig.Editboxes)
 	wipe(Ludwig.Others)
+
+	self.Startup = nil
+	self:EnableMouse(true)
+	self:SetScript('OnShow', self.OnShow)
+	self:SetScript('OnHide', self.OnHide)
+	self:Hide()
 end
 
 
@@ -132,6 +75,10 @@ function Frame:Toggle()
 end
 
 function Frame:OnShow()
+	if not self.Scroll.buttons then
+		HybridScrollFrame_CreateButtons(self.Scroll, 'LudwigItemButtonTemplate', 1, -2, 'TOPLEFT', 'TOPLEFT', 0, -3)
+	end
+
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_OPEN)
 	self:Update(true)
 end
@@ -139,9 +86,8 @@ end
 function Frame:OnHide()
 	PlaySound(SOUNDKIT.IG_CHARACTER_INFO_CLOSE)
 	ids, names = nil
-	collectgarbage() -- it's important to keep our trash clean. We don't want to attract rats, do we?
+	collectgarbage() -- necessary given the amount of memory we're consuming
 end
-
 
 
 --[[ Update ]]--
@@ -175,20 +121,21 @@ function Frame:Update(search)
 			numResults = numResults + #items
 		end
 
-		self.title:SetText(L.FrameTitle:format(numResults))
+		(self.TitleText or self.TitleContainer.TitleText):SetText(L.FrameTitle:format(numResults))
 	end
 
-	local buttons = self.itemButtons
-	local scrollFrame = self.scrollFrame
-	local offset = FauxScrollFrame_GetOffset(scrollFrame) or 0
+	self.Scroll:update()
+end
 
-	for i = 1, ITEMS_TO_DISPLAY do
+function Frame.Scroll:update()
+	local self = Frame
+	local focus = GetMouseFocus()
+	local offset = HybridScrollFrame_GetOffset(self.Scroll)
+	local width = (numResults > 17 and 296 or 318) + 52
+
+	for i, button in ipairs(self.Scroll.buttons) do
 		local index = i + offset
-		local button = buttons[i]
-
-		if index > numResults then
-			button:Hide()
-		else
+		if index <= numResults then
 			local quality
 			for q = 0, #ITEM_QUALITY_COLORS do
 				if ids[q] then
@@ -204,16 +151,24 @@ function Frame:Update(search)
 			local name = names[quality][index]
 			local id = tonumber(ids[quality][index], 36)
 
-			button:SetFormattedText('%s%s|r', ITEM_QUALITY_COLORS[quality].hex, name)
-			button.icon:SetTexture(GetItemIcon(id))
-			button.quality = quality
-			button.name = name
-			button:SetID(id)
+			button.id, button.name, button.quality = id, name, quality
+			button.Text:SetFormattedText('%s%s|r', ITEM_QUALITY_COLORS[quality].hex, name)
+			button.Stripe:SetShown(mod(index, 2) == 0)
+			button.Icon:SetTexture(GetItemIcon(id))
+			--button.Text:SetText(name)
+			button:SetWidth(width)
 			button:Show()
+
+			if focus == button then
+				button:GetScript('OnEnter')(button)
+			end
+		else
+			button:Hide()
 		end
 	end
 
-	FauxScrollFrame_Update(scrollFrame, numResults, ITEMS_TO_DISPLAY, ITEM_STEP)
+	HybridScrollFrame_Update(self.Scroll, numResults * 20 + 2, #self.Scroll.buttons * 18)
+	self.Scroll:SetWidth(width + 5)
 end
 
 
@@ -239,13 +194,11 @@ function Frame:ClearFilters()
 	local name = self:GetName()
 	wipe(filters)
 
-	self.search:GoDefault()
-	self.minLevel:GoDefault()
-	self.maxLevel:GoDefault()
-
-	self.category:UpdateText()
-	self.quality:UpdateText()
-
+	self.SearchBox:Default()
+	self.MinLevel:Default()
+	self.MaxLevel:Default()
+	self.Category:UpdateText()
+	self.Quality:UpdateText()
 	self:Update(true)
 end
 

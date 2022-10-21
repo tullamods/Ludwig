@@ -1,7 +1,65 @@
 <Ui>
+	<Button name="LudwigItemButtonTemplate" virtual="true">
+		<Size x="295" y="17"/>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="Stripe" setAllPoints="true">
+					<Color a=".08" r="1" g="1" b="1"/>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture parentKey="Icon">
+					<Size x="15" y="15"/>
+					<Anchors>
+						<Anchor point="RIGHT" x="-10" y="0"/>
+					</Anchors>
+				</Texture>
+				<FontString parentKey="Text" inherits="GameFontHighlightLeft">
+					<Size x="210" y="11"/>
+					<Anchors>
+						<Anchor point="LEFT" x="11" y="0"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnClick>
+				HandleModifiedItemClick(Ludwig.Database:GetLink(self.id, self.name, self.quality))
+			</OnClick>
+			<OnEnter>
+				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+				GameTooltip:SetHyperlink(Ludwig.Database:GetLink(self.id, self.name, self.quality))
+				GameTooltip:Show()
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide()
+			</OnLeave>
+		</Scripts>
+		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
+	</Button>
+
+	<Frame name="LudwigFrameTemplate" inherits="ButtonFrameTemplate" virtual="true">
+		<Size x="384" y="530"/>
+		<Frames>
+			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="3" y="-4"/>
+					<Anchor point="BOTTOM" relativeTo="$parentInset" x="-9" y="4"/>
+				</Anchors>
+				<Frames>
+					<Slider name="$parentBar" inherits="HybridScrollBarTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-1" y="-12"/>
+							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-1" y="11"/>
+						</Anchors>
+					</Slider>
+				</Frames>
+			</ScrollFrame>
+		</Frames>
+	</Frame>
+
 	<Script file="dropdowns.lua"/>
   <Script file="editboxes.lua"/>
   <Script file="others.lua"/>
-
   <Script file="frame.lua"/>
 </Ui>

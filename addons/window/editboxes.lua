@@ -10,20 +10,20 @@ function Editboxes:Create(name, next, default, parent)
 	edit:SetScript('OnTabPressed', self.OnTabPressed)
 	edit:SetScript('OnEditFocusLost', self.OnEditFocusLost)
 	edit:SetScript('OnEditFocusGained', self.OnEditFocusGained)
-	
-	edit.GoDefault = self.GoDefault
+
+	edit.Default = self.Default
 	edit.ClearDefault = self.ClearDefault
 	edit.default = default
 	edit.next = next
 	edit.key = name
 
 	edit:SetAutoFocus(false)
-	edit:GoDefault()
+	edit:Default()
 
 	return edit
 end
 
-function Editboxes:GoDefault(onlyEmpty)
+function Editboxes:Default(onlyEmpty)
 	if not onlyEmpty or self:GetText() == '' then
 		self:SetText(self.default)
 		self:ClearFocus()
@@ -49,7 +49,7 @@ end
 
 function Editboxes:OnEditFocusLost()
 	self:HighlightText(0, 0)
-	self:GoDefault(true)
+	self:Default(true)
 end
 
 function Editboxes:OnEditFocusGained()
@@ -82,6 +82,6 @@ end
 
 function Editboxes:CreateSearch(parent)
 	local search = self:Create('search', 'minLevel', SEARCH, parent)
-	search:SetSize(148, 20)
+	search:SetSize(190, 20)
 	return search
 end
