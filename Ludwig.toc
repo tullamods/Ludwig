@@ -1,7 +1,7 @@
 ## Interface: 11403
 ## Title: |cffbd40bdLudwig|r
+## Notes: Searchable ingame item database. Provides a browser window,|nslashcommands and link autocomplete features.|n|cffbbbbbbBy João Cardoso and Jason Greer|r|n|n|TInterface/Addons/Ludwig/Art/Paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/Ludwig/Art/Patreon:12:12:0:-4|t |cff82c5ffpatreon.com/jaliborc|r
 ## Author: Tuller & Jaliborc (João Cardoso)
-## Notes: Searchable ingame item database
 ## Version: 9.2
 
 addons\main\main.xml
