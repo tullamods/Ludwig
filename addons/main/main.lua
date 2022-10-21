@@ -1,43 +1,34 @@
 --[[
 	Ludwig.lua
-		Ludwig's globally accessible methods
+		Most important methods
 --]]
 
-local ADDON, Addon = ...; Ludwig = Addon
-local L = Addon('Locals')
-local MAX_RESULTS = 10
+local ADDON, Addon = ...
+_G[ADDON] = Addon
 
 
 --[[ Actions ]]--
 
 function Addon:ToggleSearchFrame()
-	if self:LoadWindow() then
-		self('Frame'):Toggle()
+	if self:Load('Window') then
+		self.Frame:Toggle()
 	end
 end
 
 function Addon:QueryItem(id)
-	SetItemRef(('item:%d'):format(tonumber(id)))
+	SetItemRef(format('item:%d', tonumber(id)))
 end
 
 
---[[ Loading ]]--
+--[[ Modules & Loading ]]--
 
-function Addon:LoadWindow()
-	if self:LoadSub('_Window') then
-		self.LoadWindow = function() return true end
-		return true
-	end
+function Addon:NewModule(name, obj)
+	obj = obj or {}
+	self[name] = obj
+	return obj
 end
 
-function Addon:LoadData()
-	if self:LoadSub('_Data') then
-		self.LoadData = function() return true end
-		return true
-	end
-end
-
-function Addon:LoadSub(name)
-	EnableAddOn(ADDON .. name)
-	return LoadAddOn(ADDON .. name)
+function Addon:Load(name)
+	EnableAddOn(ADDON ..'_'.. name)
+	return LoadAddOn(ADDON ..'_'.. name)
 end

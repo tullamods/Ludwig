@@ -1,11 +1,5 @@
 --[[
 	API for searching the item database
-
-	Usage:
-		:Find([search, class, subclass, slot, quality, minLevel, maxLevel])
-		:FindClosest(search)
-		:ClassExists(class [, subclass, slot])
-		:GetItemLink(id, name, quality)
 --]]
 
 local Database = Ludwig:NewModule('Database')

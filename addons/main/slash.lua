@@ -1,18 +1,13 @@
 --[[
 	slash.lua
 		Slash command handler for Ludwig
-
-	ludwig slash commands:
-		/lw or /ludwig
-			toggles the GUI
-		/lw -q <itemID>
-			queries the game for and displays the link of <itemID>
 --]]
 
 local ADDON, Addon = ...
-local L = Addon('Locals')
+local L = Addon.Locals
 
 SlashCmdList['LudwigCOMMAND'] = function(msg, ...)
+	print(msg)
 	local cmd = (msg or ''):lower():match('([%w%s]+)')
 	if cmd then
 		if cmd:sub(1,1) == 'q' then

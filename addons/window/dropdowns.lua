@@ -1,5 +1,5 @@
 local Dropdowns = Ludwig:NewModule('Dropdowns')
-local Database = Ludwig('Database')
+local Database = Ludwig.Database
 
 local function compare(a, b)
 	if a == b then

@@ -1,6 +1,6 @@
 local Ludwig = _G['Ludwig']
 local Frame = Ludwig:NewModule('Frame', CreateFrame('Frame', 'LudwigFrame', UIParent))
-local L = Ludwig('Locals')
+local L = Ludwig.Locals
 
 local filters, numResults, ids, names = {}, 0
 local ITEMS_TO_DISPLAY = 15
@@ -11,10 +11,6 @@ local ITEM_STEP = 22
 
 function Frame:Startup()
 	self:Hide()
-
-	local Dropdowns = Ludwig('Dropdowns')
-	local Editboxes = Ludwig('Editboxes')
-	local Others = Ludwig('Others')
 
 	--set attributes
 	self:SetScript('OnShow', self.OnShow)
@@ -68,15 +64,16 @@ function Frame:Startup()
 
 	--close button
 	local closeButton = CreateFrame('Button', '$parentCloseButton', self, 'UIPanelCloseButton')
-	closeButton:SetPoint('TOPRIGHT', -29, -8)
+	--closeButton:SetPoint('TOPRIGHT', -29, -8)
+	closeButton:SetPoint('TOPRIGHT', -34, -12)
 
 	--search box
-	local search = Editboxes:CreateSearch(self)
+	local search = Ludwig.Editboxes:CreateSearch(self)
 	search:SetPoint('TOPLEFT', 84, -44)
 	self.search = search
 
 	--level search
-	local minLevel = Editboxes:CreateMinLevel(self)
+	local minLevel = Ludwig.Editboxes:CreateMinLevel(self)
 	minLevel:SetPoint('LEFT', search, 'RIGHT', 12, 0)
 	self.minLevel = minLevel
 
@@ -84,43 +81,43 @@ function Frame:Startup()
 	hyphenText:SetText('-')
 	hyphenText:SetPoint('LEFT', minLevel, 'RIGHT', 1, 0)
 
-	local maxLevel = Editboxes:CreateMaxLevel(self)
+	local maxLevel = Ludwig.Editboxes:CreateMaxLevel(self)
 	maxLevel:SetPoint('LEFT', minLevel, 'RIGHT', 12, 0)
 	self.maxLevel = maxLevel
 
 	--reset button
-	local resetButton = Others:CreateResetButton(self)
+	local resetButton = Ludwig.Others:CreateResetButton(self)
 	resetButton:SetPoint('LEFT', maxLevel, 'RIGHT', -2, -2)
 
 	--scroll area
-	local scrollFrame = Others:CreateScrollFrame(self)
+	local scrollFrame = Ludwig.Others:CreateScrollFrame(self)
 	scrollFrame:SetPoint('TOPLEFT', 24, -78)
 	scrollFrame:SetPoint('BOTTOMRIGHT', -68, 106)
 	self.scrollFrame = scrollFrame
 
 	--quality filter
-	local quality = Dropdowns:CreateQuality(self)
+	local quality = Ludwig.Dropdowns:CreateQuality(self)
 	quality:SetPoint('BOTTOMLEFT', 0, 72)
 	self.quality = quality
 
 	--category filter
-	local category = Dropdowns:CreateCategory(self)
+	local category = Ludwig.Dropdowns:CreateCategory(self)
 	category:SetPoint('BOTTOMLEFT', 110, 72)
 	self.category = category
 
 	--item buttons
 	local items = {}
 	for i = 1, ITEMS_TO_DISPLAY do
-		local item = Others:CreateItemButton(self, i)
+		local item = Ludwig.Others:CreateItemButton(self, i)
 		item:SetPoint('TOPLEFT', scrollFrame, 'TOPLEFT', 0, -item:GetHeight() * (i-1))
 		items[i] = item
 	end
 	self.itemButtons = items
 
 	-- clean modules
-	wipe(Dropdowns)
-	wipe(Editboxes)
-	wipe(Others)
+	wipe(Ludwig.Dropdowns)
+	wipe(Ludwig.Editboxes)
+	wipe(Ludwig.Others)
 end
 
 
@@ -165,7 +162,7 @@ end
 
 function Frame:Update(search)
 	if not ids or search then
-		ids, names = Ludwig('Database'):Find(
+		ids, names = Ludwig.Database:Find(
 			filters.search,
 			filters.category and filters.category[1],
 			filters.category and filters.category[2],

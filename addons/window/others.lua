@@ -1,5 +1,5 @@
 local Others = Ludwig:NewModule('Others')
-local Database = Ludwig('Database')
+local Database = Ludwig.Database
 local ITEM_HEIGHT = 22
 
 
@@ -36,7 +36,6 @@ function Others:CreateItemButton(parent, i)
 	icon:SetSize(20, 20)
 	icon:SetPoint('LEFT', 4, 0)
 	icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-	icon:SetNonBlocking(true)
 	b.icon = icon
 
 	b:SetScript('OnEnter', itemButton_OnEnter)

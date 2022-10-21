@@ -7,14 +7,14 @@
 Ludwig is an World of Warcraft item database addon that allows you to search for any item ingame. It presents all ingame items sorted by their proprieties, and allows you to filter them as well.
 
 Furthermore, it:
-* Allows you to easily type any item `[[link]` into the chat.
-* Works on both Retail and Classic servers, and on all in-game locales.
 * Searches trough more than 200 thousand items in a blink.
+* Works on all servers, and on all in-game locales.
 * Its RAM efficient, only loading the database when you use it.
+* Allows you to easily type any item `lw:link` into the chat.
 
 ## Commands
 `/lw or /ludwig` - Brings up the search frame.  
 `/lw <name>` - Prints out a list in the chat window of the top 10 items matching `<name>`.
 
 ## Linking Items
-Simply type two brackets followed by the item name and a closing bracket in the end (ex: `[[Staff]`). Ludwig will automatically convert it into the item link, and make suggestions as you type the name.
+Start by typing `lw:` followed by the item name you're looking for (ex: `lw:Staff`). When you're happy with the suggested item, press tab and Ludwig will automatically convert it into the item link.
