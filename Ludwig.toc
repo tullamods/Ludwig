@@ -4,4 +4,4 @@
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Version: 10.0
 
-addons\main\main.xml
+Addons\Main\Main.xml

@@ -1,7 +1,7 @@
 <Bindings>
 	<Binding name="LUDWIG_SHOW" header="LUDWIG" category="ADDONS">
 		if keystate == 'down' then
-			Ludwig:ToggleSearchFrame()
+			Ludwig:ToggleWindow()
 		end
 	</Binding>
 </Bindings>

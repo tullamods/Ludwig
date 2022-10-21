@@ -1,5 +1,5 @@
 --[[
-	Localization for Ludwig
+	English default locale
 --]]
 
 local ADDON, Addon = ...
