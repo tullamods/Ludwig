@@ -7,7 +7,6 @@ local ADDON, Addon = ...
 local L = Addon.Locals
 
 SlashCmdList['LudwigCOMMAND'] = function(msg, ...)
-	print(msg)
 	local cmd = (msg or ''):lower():match('([%w%s]+)')
 	if cmd then
 		if cmd:sub(1,1) == 'q' then
