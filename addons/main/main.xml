@@ -1,12 +1,13 @@
 <Ui>
-	<Script file="..\..\libs\LibStub\LibStub.lua"/>
-  <Script file="..\..\libs\CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
-  <Script file="..\..\libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
+	<Script file="..\..\Libs\LibStub\LibStub.lua"/>
+  <Script file="..\..\Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua"/>
+  <Script file="..\..\Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
 
-	<Script file="main.lua"/>
-	<Script file="locales\en.lua"/>
-	<Script file="locales\cn.lua"/>
-  <Script file="slash.lua"/>
-  <Script file="autocomplete.lua"/>
-  <Script file="broker.lua"/>
+	<Script file="Main.lua"/>
+	<Script file="Locales\en.lua"/>
+	<Script file="Locales\cn.lua"/>
+
+  <Script file="Slash.lua"/>
+  <Script file="Autocomplete.lua"/>
+  <Script file="Broker.lua"/>
 </Ui>

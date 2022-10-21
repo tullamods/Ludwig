@@ -57,8 +57,7 @@
 		</Frames>
 	</Frame>
 
-	<Script file="dropdowns.lua"/>
-  <Script file="editboxes.lua"/>
-  <Script file="others.lua"/>
-  <Script file="frame.lua"/>
+	<Script file="Dropdowns.lua"/>
+  <Script file="Editboxes.lua"/>
+  <Script file="Frame.lua"/>
 </Ui>

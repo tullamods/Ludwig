@@ -1,4 +1,4 @@
 <Ui>
-	<Script file="items.lua"/>
-  <Script file="api.lua"/>
+	<Script file="Items.lua"/>
+  <Script file="API.lua"/>
 </Ui>

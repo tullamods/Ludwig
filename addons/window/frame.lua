@@ -1,7 +1,6 @@
 local Frame = Ludwig:NewModule('Frame', CreateFrame('Frame', 'LudwigFrame', UIParent, 'LudwigFrameTemplate'))
-local L = Ludwig.Locals
-
 local filters, numResults, ids, names = {}, 0
+local L = Ludwig.Locals
 
 
 --[[ Startup ]]--
@@ -30,12 +29,17 @@ function Frame:Startup()
 	self.MaxLevel = Ludwig.Editboxes:CreateMaxLevel(self)
 	self.MaxLevel:SetPoint('LEFT', self.MinLevel, 'RIGHT', 12, 0)
 
-	self.Hyphen = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall')
-	self.Hyphen:SetPoint('LEFT', self.MinLevel, 'RIGHT', 1, 0)
-	self.Hyphen:SetText('-')
+	local hyphen = self:CreateFontString(nil, 'ARTWORK', 'GameFontHighlightSmall')
+	hyphen:SetPoint('LEFT', self.MinLevel, 'RIGHT', 1, 0)
+	hyphen:SetText('-')
 
-	self.ResetButton = Ludwig.Others:CreateResetButton(self)
-	self.ResetButton:SetPoint('LEFT', self.MaxLevel, 'RIGHT', -2, -2)
+	local resetButton = CreateFrame('Button', nil, self)
+	resetButton:SetNormalTexture('Interface/Buttons/CancelButton-Up')
+	resetButton:SetPushedTexture('Interface/Buttons/CancelButton-Down')
+	resetButton:SetHighlightTexture('Interface/Buttons/CancelButton-Highlight')
+	resetButton:SetScript('OnClick', function() self:ClearFilters() end)
+	resetButton:SetPoint('LEFT', self.MaxLevel, 'RIGHT', -2, -2)
+	resetButton:SetSize(39, 39)
 
 	-- bottom filters
 	self.Quality = Ludwig.Dropdowns:CreateQuality(self)
@@ -54,7 +58,6 @@ function Frame:Startup()
 	tinsert(UISpecialFrames, self:GetName())
 	wipe(Ludwig.Dropdowns)
 	wipe(Ludwig.Editboxes)
-	wipe(Ludwig.Others)
 
 	self.Startup = nil
 	self:EnableMouse(true)
