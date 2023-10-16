@@ -1,3 +1,6 @@
+##### 10.0.1
+* Wrath TOC update.
+
 #### 10.0
 * Updated for Dragonflight pre-patch.
 * Fixed issue with autocomplete that prevented linking friends.
