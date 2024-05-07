@@ -1,10 +1,10 @@
-## Title: Ludwig
-## Notes: Searchable ingame item database. Provides a browser window,|nslashcommands and link autocomplete features.|n|cffbbbbbbBy João Cardoso and Jason Greer|r|n|n|TInterface/Addons/BagBrother/Art/Patreon:12:12|t |cff82c5ffpatreon.com/jaliborc|r|n|TInterface/Addons/BagBrother/Art/Paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/BagBrother/Art/Discord:12:12:0:-2|t |cff82c5ffbit.ly/discord-jaliborc|r
+## Title: |TInterface/Addons/Ludwig/art/gnomed:16:16|t Ludwig
+## Notes: Searchable ingame item database. Provides a browser|nwindow, link autocomplete and slash commands.|n|cffbbbbbbBy João Cardoso and Jason Greer|r|n|n|TInterface/Addons/Ludwig/art/patreon:12:12|t |cff82c5ffpatreon.com/jaliborc|r|n|TInterface/Addons/Ludwig/art/paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/Ludwig/art/discord:12:12:0:-2|t |cff82c5ffbit.ly/discord-jaliborc|r
 ## X-License: All Rights Reserved
 ## X-Category: Bags & Inventory
-## Author: Tuller & Jaliborc
+## Author: Jaliborc & Tuller
 
-## Interface: 11404
-## Version: 10.0.1
+## Interface: 11502
+## Version: 10.2
 
 Addons\Main\Main.xml

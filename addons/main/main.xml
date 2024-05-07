@@ -9,5 +9,6 @@
 
   <Script file="Slash.lua"/>
   <Script file="Autocomplete.lua"/>
+  <Script file="Compartment.lua"/>
   <Script file="Broker.lua"/>
 </Ui>

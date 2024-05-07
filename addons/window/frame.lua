@@ -1,21 +1,10 @@
 --[[
-Copyright 2007-2023 João Cardoso
-Ludwig is distributed under the terms of the GNU General Public License (Version 3).
-As a special exception, the copyright holders of this addon do not give permission to
-redistribute and/or modify it.
-
-This addon is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
-
-This file is part of Ludwig.
+	Copyright 2007-2024 João Cardoso
+	All Rights Reserved
 --]]
 
 local Frame = Ludwig:NewModule('Frame', CreateFrame('Frame', 'LudwigFrame', UIParent, 'LudwigFrameTemplate'))
+local off = LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_DRAGONFLIGHT and 3 or 5
 local filters, numResults, ids, names = {}, 0
 local L = Ludwig.Locals
 
@@ -24,18 +13,27 @@ local L = Ludwig.Locals
 
 function Frame:Startup()
 	-- portrait
-	local portrait = self.portrait or self.PortraitContainer.portrait
-	portrait:SetTexture('Interface/Icons/INV_Misc_Book_04')
-
-	local backdrop = portrait:GetParent():CreateTexture(nil, 'BORDER')
+	local backdrop = self.portrait or self.PortraitContainer.portrait
 	backdrop:SetColorTexture(0, 0, 0)
-	backdrop:SetAllPoints(portrait)
+	backdrop:SetDrawLayer('BORDER')
 
-	local mask = portrait:GetParent():CreateMaskTexture()
-	mask:SetTexture('Interface/CHARACTERFRAME/TempPortraitAlphaMask')
-	mask:SetAllPoints(backdrop)
+	local shade = backdrop:GetParent():CreateTexture(nil, 'ARTWORK')
+	shade:SetVertexColor(BLUE_FONT_COLOR:GetRGB())
+	shade:SetAtlas('FogofWar')
+	shade:SetAllPoints(backdrop)
+
+	local portrait = backdrop:GetParent():CreateTexture(nil, 'OVERLAY')
+	portrait:SetTexture('Interface/AddOns/Ludwig/Art/Gnomed')
+	portrait:SetPoint('BOTTOMLEFT', backdrop, off, off)
+	portrait:SetPoint('TOPRIGHT', backdrop, -off,-off)
+
+	local mask = backdrop:GetParent():CreateMaskTexture()
+	mask:SetTexture('Interface/CharacterFrame/TempPortraitAlphaMask')
+	mask:SetPoint('BOTTOMLEFT', backdrop, 2, 2)
+	mask:SetPoint('TOPRIGHT', backdrop, -2,-2)
 	backdrop:AddMaskTexture(mask)
 	portrait:AddMaskTexture(mask)
+	shade:AddMaskTexture(mask)
 
 	-- top search
 	self.SearchBox = Ludwig.Editboxes:CreateSearch(self)
