@@ -18,4 +18,4 @@ Furthermore, it:
 `/lw q <id>` - Prints the link of the item with the given ID number.
 
 ## Linking Items
-Start by typing `lw:` followed by the item name you're looking for (ex: `lw:Staff`). When you're happy with the suggested item, press tab and Ludwig will automatically convert it into the item link.
+Start by typing `lw:` followed by the item name you're looking for (ex: `lw:Staff`). When you're happy with the suggested item, press `tab` and Ludwig will automatically convert it into the item link.
