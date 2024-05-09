@@ -1,3 +1,8 @@
+### 10.2.1
+* Now checks for current expansion instead of client branch (more accurate).
+* Updated Ludwig frame design details.
+* Dragonflight: TOC update.
+
 ### 10.2
 * Updated for Cataclysm classic.
 * Added AddonCompartment and IconTexture support.

@@ -5,6 +5,6 @@
 ## Author: Jaliborc & Tuller
 
 ## Interface: 30403
-## Version: 10.2
+## Version: 10.2.1
 
 Addons\Main\Main.xml

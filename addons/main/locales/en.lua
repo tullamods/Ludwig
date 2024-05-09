@@ -10,7 +10,7 @@ BINDING_HEADER_LUDWIG = ADDON
 BINDING_NAME_LUDWIG_SHOW = 'Show ' .. ADDON
 
 -- UI
-L.FrameTitle = ADDON .. ': %d Items'
+L.FrameTitle = ADDON .. ': |cffffffff%d Items|r'
 
 -- Slash command responses
 L.UnknownCommand = '"%s" is an unknown command'

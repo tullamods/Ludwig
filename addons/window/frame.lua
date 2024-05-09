@@ -3,7 +3,7 @@
 	All Rights Reserved
 --]]
 
-local Frame = Ludwig:NewModule('Frame', CreateFrame('Frame', 'LudwigFrame', UIParent, 'LudwigFrameTemplate'))
+local Frame = Ludwig:NewModule('Frame', LudwigFrame)
 local off = LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_DRAGONFLIGHT and 3 or 5
 local filters, numResults, ids, names = {}, 0
 local L = Ludwig.Locals

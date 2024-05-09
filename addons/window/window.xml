@@ -38,7 +38,7 @@
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>
 
-	<Frame name="LudwigFrameTemplate" inherits="ButtonFrameTemplate" virtual="true">
+	<Frame name="LudwigFrame" inherits="ButtonFrameTemplate" parent='UIParent'>
 		<Frames>
 			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
 				<Anchors>
@@ -57,7 +57,7 @@
 		</Frames>
 	</Frame>
 
-	<Script file="Dropdowns.lua"/>
+  <Script file="Dropdowns.lua"/>
   <Script file="Editboxes.lua"/>
   <Script file="Frame.lua"/>
 </Ui>
