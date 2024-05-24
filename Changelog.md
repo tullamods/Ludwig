@@ -1,3 +1,8 @@
+### 10.2.2
+* Retail and Cataclysm: Fixed bug causing wrong dataset to be loaded.
+* Improved dataset loading speed, especially on classic servers.
+* Updated mandarin locale.
+
 ### 10.2.1
 * Now checks for current expansion instead of client branch (more accurate).
 * Updated Ludwig frame design details.

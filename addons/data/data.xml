@@ -1,4 +1,0 @@
-<Ui>
-	<Script file="Items.lua"/>
-  <Script file="API.lua"/>
-</Ui>

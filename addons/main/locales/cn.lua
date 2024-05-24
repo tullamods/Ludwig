@@ -10,7 +10,7 @@ local L = Addon.Locals
 BINDING_NAME_LUDWIG_SHOW = "显示 " .. ADDON
 
 -- UI
-L.FrameTitle = ADDON ..  ": %d件物品"
+L.FrameTitle = ADDON ..  ": |cffffffff%d%d件物品|r"
 
 -- Slash command responses
 L.UnknownCommand = "\"%s\"命令不能被识别"
