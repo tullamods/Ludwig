@@ -4,6 +4,7 @@
 --]]
 
 local ADDON, Addon = ...
+local C = LibStub('C_Everywhere')
 _G[ADDON] = Addon
 
 
@@ -29,6 +30,6 @@ function Addon:NewModule(name, obj)
 end
 
 function Addon:Load(name)
-	EnableAddOn(ADDON ..'_'.. name)
-	return LoadAddOn(ADDON ..'_'.. name)
+	C.AddOns.EnableAddOn(ADDON ..'_'.. name)
+	return C.AddOns.LoadAddOn(ADDON ..'_'.. name)
 end

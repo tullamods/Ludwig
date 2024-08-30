@@ -148,7 +148,7 @@ end
 
 function Frame.Scroll:update()
 	local self = Frame
-	local focus = GetMouseFocus()
+	local focus = GetMouseFoci and GetMouseFoci()[1] or GetMouseFocus and GetMouseFocus()
 	local offset = HybridScrollFrame_GetOffset(self.Scroll)
 	local width = (numResults > 17 and 296 or 318) + 52
 

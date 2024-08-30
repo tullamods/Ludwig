@@ -1,5 +1,7 @@
+[project]
+  3831
 [modules]
   Ludwig_Window
   Ludwig_Data
-[project]
-  3831
+[ignore]
+  Ludwig/libs/C_Everywhere/Tests.lua

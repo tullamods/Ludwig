@@ -1,3 +1,6 @@
+## 11
+* Updated for The War Within.
+
 ### 10.2.2
 * Retail and Cataclysm: Fixed bug causing wrong dataset to be loaded.
 * Improved dataset loading speed, especially on classic servers.
