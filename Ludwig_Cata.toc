@@ -4,7 +4,7 @@
 ## X-Category: Bags & Inventory
 ## Author: Jaliborc & Tuller
 
-## Interface: 40400
-## Version: 11
+## Interface: 40401
+## Version: 11.0.1
 
 Addons\Main\Main.xml
