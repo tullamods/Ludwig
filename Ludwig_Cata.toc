@@ -1,10 +1,10 @@
 ## Title: |TInterface/Addons/Ludwig/art/gnomed:16:16|t Ludwig
 ## Notes: Searchable ingame item database. Provides a browser|nwindow, link autocomplete and slash commands.|n|cffbbbbbbBy João Cardoso and Jason Greer|r|n|n|TInterface/Addons/Ludwig/art/patreon:12:12|t |cff82c5ffpatreon.com/jaliborc|r|n|TInterface/Addons/Ludwig/art/paypal:12:12|t |cff82c5ffpaypal.me/jaliborc|r|n|TInterface/Addons/Ludwig/art/discord:12:12:0:-2|t |cff82c5ffbit.ly/discord-jaliborc|r
 ## X-License: All Rights Reserved
-## X-Category: Bags & Inventory
+## Category: Miscellaneous
 ## Author: Jaliborc & Tuller
 
 ## Interface: 40401
-## Version: 11.0.1
+## Version: 11.1
 
 Addons\Main\Main.xml

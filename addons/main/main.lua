@@ -1,5 +1,5 @@
 --[[
-	Copyright 2007-2024 João Cardoso
+	Copyright 2007-2025 João Cardoso
 	All Rights Reserved
 --]]
 
@@ -30,6 +30,5 @@ function Addon:NewModule(name, obj)
 end
 
 function Addon:Load(name)
-	C.AddOns.EnableAddOn(ADDON ..'_'.. name)
 	return C.AddOns.LoadAddOn(ADDON ..'_'.. name)
 end
