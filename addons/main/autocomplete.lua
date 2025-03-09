@@ -35,11 +35,17 @@ function Auto.MakeSuggestion(query)
 end
 
 function Auto.MakeLink(query)
-	local id, name, quality = Auto.ClosestItem(query)
-	if id then
-		return Addon.Database:GetLink(id, name, quality)
-	end
-	return 'lw:' .. (name or query)
+    local id, name, quality = Auto.ClosestItem(query)
+    if id then
+        local itemName, itemLink = GetItemInfo(id)
+        if itemLink then
+            local chatBox = ChatEdit_GetActiveWindow()
+            if chatBox then
+                chatBox:Insert(itemLink)
+            end
+            return itemLink
+        end
+    end
 end
 
 function Auto.ClosestItem(...)
