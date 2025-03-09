@@ -104,3 +104,22 @@ end
 function Database:GetLink(id, name, quality)
 	return ('%s|Hitem:%d:::::::::::::::|h[%s]|h|r'):format(ITEM_QUALITY_COLORS[quality].hex, id, name)
 end
+
+ChatEdit_InsertLink = function(link)
+    if link and link:find("|Hitem:") and ChatEdit_GetActiveWindow() then
+        local itemID = link:match("item:(%d+)")
+        if itemID then
+            local itemName, itemLink = GetItemInfo(tonumber(itemID))
+            if itemLink then
+                local chatBox = ChatEdit_GetActiveWindow()
+                local currentText = chatBox:GetText()
+
+                -- Avoid adding multiple item links
+                if not currentText:find(itemLink, 1, true) then
+                    chatBox:SetText(currentText .. " " .. itemLink)
+                end
+                return true
+            end
+        end
+    end
+end
