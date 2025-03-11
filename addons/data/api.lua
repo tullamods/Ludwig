@@ -5,6 +5,7 @@
 
 local Database = Ludwig:NewModule('Database')
 local ITEM_MATCH = '(%w%w%w%w)([^_]+)'
+local C = LibStub('C_Everywhere')
 
 
 --[[ Searches ]]--
@@ -53,7 +54,7 @@ function Database:FindClosest(search)
 	local size = #search
 	local search = '^' .. search:lower()
 	local distance = math.huge
-	local bestID, bestName, bestQuality
+	local bestID, bestName
 
 	for class, subclasses in pairs(Ludwig_Items) do
 		for subclass, slots in pairs(subclasses) do
@@ -64,7 +65,7 @@ function Database:FindClosest(search)
 							if name:lower():match(search) then
 								local off = #name - size
 								if off >= 0 and off < distance then
-									bestID, bestName, bestQuality = id, name, quality
+									bestID, bestName = id, name
 									distance = off
 								end
 							end
@@ -76,7 +77,7 @@ function Database:FindClosest(search)
 	end
 
 	if bestID then
-		return tonumber(bestID, 36), bestName, bestQuality
+		return tonumber(bestID, 36), bestName
 	end
 end
 
@@ -101,6 +102,6 @@ end
 
 --[[ Utilities ]]--
 
-function Database:GetLink(id, name, quality)
-	return ('%s|Hitem:%d:::::::::::::::|h[%s]|h|r'):format(ITEM_QUALITY_COLORS[quality].hex, id, name)
+function Database:GetLink(id)
+	return select(2, C.Item.GetItemInfo(id))
 end

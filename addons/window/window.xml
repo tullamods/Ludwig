@@ -24,11 +24,11 @@
 		</Layers>
 		<Scripts>
 			<OnClick>
-				HandleModifiedItemClick(Ludwig.Database:GetLink(self.id, self.name, self.quality))
+				HandleModifiedItemClick(Ludwig.Database:GetLink(self.id))
 			</OnClick>
 			<OnEnter>
 				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-				GameTooltip:SetHyperlink(Ludwig.Database:GetLink(self.id, self.name, self.quality))
+				GameTooltip:SetHyperlink(Ludwig.Database:GetLink(self.id))
 				GameTooltip:Show()
 			</OnEnter>
 			<OnLeave>

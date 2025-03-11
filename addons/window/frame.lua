@@ -170,13 +170,12 @@ function Frame.Scroll:update()
 			local name = names[quality][index]
 			local id = tonumber(ids[quality][index], 36)
 
-			button.id, button.name, button.quality = id, name, quality
 			button.Text:SetFormattedText('%s%s|r', ITEM_QUALITY_COLORS[quality].hex, name)
 			button.Stripe:SetShown(mod(index, 2) == 0)
 			button.Icon:SetTexture(GetItemIcon(id))
-			--button.Text:SetText(name)
 			button:SetWidth(width)
 			button:Show()
+			button.id = id
 
 			if focus == button then
 				button:GetScript('OnEnter')(button)

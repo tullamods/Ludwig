@@ -35,9 +35,9 @@ function Auto.MakeSuggestion(query)
 end
 
 function Auto.MakeLink(query)
-	local id, name, quality = Auto.ClosestItem(query)
+	local id, name = Auto.ClosestItem(query)
 	if id then
-		return Addon.Database:GetLink(id, name, quality)
+		return Addon.Database:GetLink(id)
 	end
 	return 'lw:' .. (name or query)
 end

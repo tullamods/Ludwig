@@ -1,3 +1,6 @@
+### 11.1.1
+* All: Linking items in chat works again (with some inspiration from myrmark).
+
 ## 11.1
 * Retail: Updated for the "Undermined" game patch.
 * Retail: Added support for the new addon list native grouping capabilities.
