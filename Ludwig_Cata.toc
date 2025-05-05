@@ -4,7 +4,7 @@
 ## Category: Miscellaneous
 ## Author: Jaliborc & Tuller
 
-## Interface: 40401
-## Version: 11.1.1
+## Interface: 40402
+## Version: 11.1.2
 
 Addons\Main\Main.xml

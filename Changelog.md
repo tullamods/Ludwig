@@ -1,5 +1,8 @@
+### 11.1.2
+* Retail: Updated description to match the new addon list formatting.
+
 ### 11.1.1
-* All: Linking items in chat works again (with some inspiration from myrmark).
+* Linking items in chat works again (with some inspiration from myrmark).
 
 ## 11.1
 * Retail: Updated for the "Undermined" game patch.
