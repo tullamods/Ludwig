@@ -52,7 +52,7 @@ end
 
 function Database:FindClosest(search)
 	local size = #search
-	local search = '^' .. search:lower()
+	local search = '^' .. search:trim():lower()
 	local distance = math.huge
 	local bestID, bestName
 
@@ -97,11 +97,4 @@ function Database:HasEquipSlots(class, subclass)
 			return true
 		end
 	end
-end
-
-
---[[ Utilities ]]--
-
-function Database:GetLink(id)
-	return select(2, C.Item.GetItemInfo(id))
 end

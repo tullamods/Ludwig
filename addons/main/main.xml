@@ -7,6 +7,7 @@
 	<Script file="Main.lua"/>
 	<Script file="Locales\en.lua"/>
 	<Script file="Locales\cn.lua"/>
+  <Script file="Locales\ru.lua"/>
 
   <Script file="Slash.lua"/>
   <Script file="Autocomplete.lua"/>

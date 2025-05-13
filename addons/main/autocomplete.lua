@@ -36,10 +36,7 @@ end
 
 function Auto.MakeLink(query)
 	local id, name = Auto.ClosestItem(query)
-	if id then
-		return Addon.Database:GetLink(id)
-	end
-	return 'lw:' .. (name or query)
+	return id and Addon:GetLink(id) or ('lw:' .. (name or query))
 end
 
 function Auto.ClosestItem(...)

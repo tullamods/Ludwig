@@ -16,9 +16,14 @@ function Addon:ToggleWindow()
 	end
 end
 
-function Addon:QueryItem(id)
-	SetItemRef(format('item:%d', tonumber(id)))
+function Addon:PrintItem(id)
+	print(self:GetLink(id))
 end
+
+function Addon:GetLink(id)
+	return select(2, C.Item.GetItemInfo(id))
+end
+
 
 
 --[[ Modules & Loading ]]--

@@ -1,3 +1,9 @@
+### 11.1.3
+* `lw:item` search is now whitespace-forgiving.
+* `\lw q [id]` now prints the item link, instead of just showing a tooltip.
+* Added Russian locale.
+* TOC update.
+
 ### 11.1.2
 * Retail: Updated description to match the new addon list formatting.
 
