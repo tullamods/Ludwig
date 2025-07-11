@@ -1,3 +1,6 @@
+### 11.1.4
+* Added support for Mists of Pandaria servers, but database is not yet updated.
+
 ### 11.1.3
 * `lw:item` search is now whitespace-forgiving.
 * `\lw q [id]` now prints the item link, instead of just showing a tooltip.

@@ -4,9 +4,11 @@
 --]]
 
 local Frame = Ludwig:NewModule('Frame', LudwigFrame)
+local C = LibStub('C_Everywhere').Item
+local L = Ludwig.Locals
+
 local off = LE_EXPANSION_LEVEL_CURRENT >= LE_EXPANSION_DRAGONFLIGHT and 3 or 5
 local filters, numResults, ids, names = {}, 0
-local L = Ludwig.Locals
 
 
 --[[ Startup ]]--
@@ -172,7 +174,7 @@ function Frame.Scroll:update()
 
 			button.Text:SetFormattedText('%s%s|r', ITEM_QUALITY_COLORS[quality].hex, name)
 			button.Stripe:SetShown(mod(index, 2) == 0)
-			button.Icon:SetTexture(GetItemIcon(id))
+			button.Icon:SetTexture(C.GetItemIconByID(id))
 			button:SetWidth(width)
 			button:Show()
 			button.id = id

@@ -4,6 +4,8 @@
 --]]
 
 local Dropdowns = Ludwig:NewModule('Dropdowns')
+local C = LibStub('C_Everywhere').Item
+
 local function compare(a, b)
 	if a == b then
 		return true
@@ -23,12 +25,12 @@ end
 
 function Dropdowns:Create(name, width, initialize, onclick, getlabel, parent)
 	local drop = CreateFrame('Frame', '$parent'..name, parent, 'UIDropDownMenuTemplate')
-  drop.UpdateText = self.UpdateText
-  drop.AddItem = self.AddItem
-  drop.OnClick = self.OnClick
+	drop.UpdateText = self.UpdateText
+	drop.AddItem = self.AddItem
+	drop.OnClick = self.OnClick
 
-  drop.getlabel = getlabel
-  drop.onclick = onclick
+	drop.getlabel = getlabel
+	drop.onclick = onclick
 
 	UIDropDownMenu_Initialize(drop, initialize)
 	UIDropDownMenu_SetWidth(drop, width)
@@ -66,35 +68,35 @@ end
 
 function Dropdowns:CreateCategory(parent)
 	local function init(self, level)
-	    if not level then
-	        return
-	    end
+		if not level then
+			return
+		end
 
-	    local selection = parent:GetFilter('category')
-	    local current = UIDROPDOWNMENU_MENU_VALUE or {}
+		local selection = parent:GetFilter('category')
+		local current = UIDROPDOWNMENU_MENU_VALUE or {}
 
-	    if level == 1 then
-	      	self:AddItem(ALL, nil, selection)
+		if level == 1 then
+			self:AddItem(ALL, nil, selection)
 
 					for id = 0, 30 do
 						if Ludwig.Database:ClassExists(id) then
-							self:AddItem(GetItemClassInfo(id), {id}, selection, GetItemSubClassInfo(id, 0))
+							self:AddItem(C.GetItemClassInfo(id), {id}, selection, C.GetItemSubClassInfo(id, 0))
 						end
 					end
 			elseif level == 2 then
 				for id = 0, 30 do
 					if Ludwig.Database:ClassExists(current[1], id) then
 						local hasSlots = Ludwig.Database:HasEquipSlots(current[1], id)
-						self:AddItem(GetItemSubClassInfo(current[1], id), {current[1], id}, selection, hasSlots)
+						self:AddItem(C.GetItemSubClassInfo(current[1], id), {current[1], id}, selection, hasSlots)
 					end
 				end
 			elseif level == 3 then
 				for slot = 1, 30 do
 					if Ludwig.Database:ClassExists(current[1], current[2], slot) then
-						self:AddItem(GetItemInventorySlotInfo(slot), {current[1], current[2], slot}, selection)
+						self:AddItem(C.GetItemInventorySlotInfo(slot), {current[1], current[2], slot}, selection)
 					end
 				end
-	    end
+		end
 	end
 
 	local function update(self)
@@ -103,12 +105,12 @@ function Dropdowns:CreateCategory(parent)
 					return ALL
 			end
 
-			local text = GetItemClassInfo(class[1])
+			local text = C.GetItemClassInfo(class[1])
 			if #class >= 2 then
-				text = text .. ' - ' .. GetItemSubClassInfo(class[1], class[2])
+				text = text .. ' - ' .. C.GetItemSubClassInfo(class[1], class[2])
 
 				if #class >= 3 then
-					text = text .. ' - ' .. GetItemInventorySlotInfo(class[3])
+					text = text .. ' - ' .. C.GetItemInventorySlotInfo(class[3])
 				end
 			end
 
@@ -116,7 +118,7 @@ function Dropdowns:CreateCategory(parent)
 	end
 
 	local function select(self, values)
-	    parent:SetFilter('category', values, true)
+		parent:SetFilter('category', values, true)
 	end
 
 	return self:Create('Category', 245, init, select, update, parent)
@@ -128,12 +130,12 @@ end
 function Dropdowns:CreateQuality(parent)
 	local function init(self)
 		local quality = tonumber(parent:GetFilter('quality'))
-	  self:AddItem(ALL, nil, quality)
+		self:AddItem(ALL, nil, quality)
 
 		for i = 0, #ITEM_QUALITY_COLORS do
 			local color = ITEM_QUALITY_COLORS[i]
 			local text = color.hex .. _G[('ITEM_QUALITY%d_DESC'):format(i)] .. '|r'
-	    self:AddItem(text, i, quality)
+		self:AddItem(text, i, quality)
 		end
 	end
 
