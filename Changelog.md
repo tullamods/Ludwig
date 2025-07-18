@@ -1,3 +1,6 @@
+### 11.1.5
+* Updated Mists, Retail and SOD databases.
+
 ### 11.1.4
 * Added support for Mists of Pandaria servers, but database is not yet updated.
 
