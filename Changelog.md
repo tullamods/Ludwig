@@ -1,3 +1,6 @@
+## 11.2
+* Retail: Updated for Ghosts of K'aresh update.
+
 ### 11.1.5
 * Updated Mists, Retail and SOD databases.
 
