@@ -6,13 +6,30 @@
 local ADDON, Addon = ...
 local Auto = Ludwig:NewModule('AutoComplete')
 
-hooksecurefunc('ChatEdit_OnTextChanged', function(frame)
+function Auto:OnLoad()
+	if ChatEdit_OnTextChanged then
+		hooksecurefunc('ChatEdit_OnTextChanged', Auto.OnFrame)
+	else
+		local i = 1
+		local frame = _G['ChatFrame' .. i .. 'EditBox']
+		while frame do
+			Auto.OnFrame(frame)
+			
+			i = i + 1
+			frame = _G['ChatFrame' .. i .. 'EditBox']
+		end
+
+		hooksecurefunc(ChatFrameEditBoxMixin, 'OnTextChanged', Auto.OnFrame)
+	end
+end
+
+function Auto.OnFrame(frame)
 	if not Auto[frame] then
-		frame:HookScript('OnChar', Auto.OnText)
 		frame:HookScript('OnTabPressed', Auto.OnTab)
+		frame:HookScript('OnChar', Auto.OnText)
 		Auto[frame] = true
 	end
-end)
+end
 
 function Auto.OnText(frame)
 	local text = frame:GetText()
@@ -44,3 +61,5 @@ function Auto.ClosestItem(...)
 		return Addon.Database:FindClosest(...)
 	end
 end
+
+Auto:OnLoad()

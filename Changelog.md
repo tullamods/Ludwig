@@ -1,3 +1,9 @@
+### 11.2.3
+* Classic, Mists: Fixed issue introduced last version when adding support for Midnight.
+
+### 11.2.2
+* Retail: Added support for Midnight open beta. 
+
 ### 11.2.1
 * Retail: Updated TOC to 12.2.5.
 

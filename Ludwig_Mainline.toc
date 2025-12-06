@@ -5,7 +5,7 @@
 ## Category: Collections
 ## Author: Jaliborc & Tuller
 
-## Interface: 110205
-## Version: 11.2.1
+## Interface: 120000, 110205
+## Version: 11.2.3
 
 Addons\Main\Main.xml
