@@ -1,3 +1,8 @@
+### 11.2.4
+* Improved performance of all searches.
+* Modernized the implementation of dropdown menus in the window. Their design now also matches the corresponding game version.
+* Ensured window height always matches the height of the quest frame, across game versions.
+
 ### 11.2.3
 * Classic, Mists: Fixed issue introduced last version when adding support for Midnight.
 

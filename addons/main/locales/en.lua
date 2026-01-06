@@ -6,7 +6,6 @@ local ADDON, Addon = ...
 local L = Addon:NewModule('Locals')
 
 -- Keybindings
-BINDING_HEADER_LUDWIG = ADDON
 BINDING_NAME_LUDWIG_SHOW = 'Show ' .. ADDON
 
 -- UI

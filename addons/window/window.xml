@@ -1,4 +1,23 @@
 <Ui>
+	<Frame name="LudwigFrame" inherits="ButtonFrameTemplate" parent='UIParent'>
+		<Frames>
+			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="3" y="-4"/>
+					<Anchor point="BOTTOM" relativeTo="$parentInset" x="-9" y="4"/>
+				</Anchors>
+				<Frames>
+					<Slider parentKey='Bar' name="$parentBar" inherits="HybridScrollBarTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-2" y="-12"/>
+							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-2" y="11"/>
+						</Anchors>
+					</Slider>
+				</Frames>
+			</ScrollFrame>
+		</Frames>
+	</Frame>
+
 	<Button name="LudwigItemButtonTemplate" virtual="true">
 		<Size x="295" y="17"/>
 		<Layers>
@@ -27,6 +46,7 @@
 				HandleModifiedItemClick(Ludwig:GetLink(self.id))
 			</OnClick>
 			<OnEnter>
+				PlaySound(SOUNDKIT.HOUSING_ITEM_HOVER)
 				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 				GameTooltip:SetHyperlink(Ludwig:GetLink(self.id))
 				GameTooltip:Show()
@@ -38,26 +58,7 @@
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>
 
-	<Frame name="LudwigFrame" inherits="ButtonFrameTemplate" parent='UIParent'>
-		<Frames>
-			<ScrollFrame parentKey='Scroll' name="$parentScroll" inherits="HybridScrollFrameTemplate">
-				<Anchors>
-					<Anchor point="TOPLEFT" relativeTo="$parentInset" x="3" y="-4"/>
-					<Anchor point="BOTTOM" relativeTo="$parentInset" x="-9" y="4"/>
-				</Anchors>
-				<Frames>
-					<Slider name="$parentBar" inherits="HybridScrollBarTemplate">
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-1" y="-12"/>
-							<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-1" y="11"/>
-						</Anchors>
-					</Slider>
-				</Frames>
-			</ScrollFrame>
-		</Frames>
-	</Frame>
-
-  <Script file="Dropdowns.lua"/>
-  <Script file="Editboxes.lua"/>
-  <Script file="Frame.lua"/>
+	<Script file="Dropdowns.lua"/>
+	<Script file="Editboxes.lua"/>
+	<Script file="Frame.lua"/>
 </Ui>

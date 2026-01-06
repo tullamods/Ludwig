@@ -1,5 +1,5 @@
 --[[
-	Copyright 2007-2025 João Cardoso
+	Copyright 2007-2026 João Cardoso
 	All Rights Reserved
 --]]
 
@@ -13,7 +13,7 @@ local C = LibStub('C_Everywhere')
 function Database:Find(search, class, subclass, slot, quality, minLevel, maxLevel)
 	local ids, names = {}, {}
 
-	search = search and search:lower()
+	search = search and search:trim():lower()
 	maxLevel = maxLevel or math.huge
 	minLevel = minLevel or 0
 
@@ -31,7 +31,7 @@ function Database:Find(search, class, subclass, slot, quality, minLevel, maxLeve
 									for level, items in pairs(levels) do
 										if level >= minLevel and level <= maxLevel then
 											for id, name in items:gmatch(ITEM_MATCH) do
-												if not search or name:lower():find(search) then
+												if not search or name:lower():find(search, 1, true) then
 													tinsert(ids[rarity], id)
 													tinsert(names[rarity], name)
 												end
@@ -51,9 +51,9 @@ function Database:Find(search, class, subclass, slot, quality, minLevel, maxLeve
 end
 
 function Database:FindClosest(search)
-	local size = #search
-	local search = '^' .. search:trim():lower()
+	local search = search:trim():lower()
 	local distance = math.huge
+	local size = #search
 	local bestID, bestName
 
 	for class, subclasses in pairs(Ludwig_Items) do
@@ -62,7 +62,7 @@ function Database:FindClosest(search)
 				for quality, levels in pairs(qualities) do
 					for level, items in pairs(levels) do
 						for id, name in items:gmatch(ITEM_MATCH) do
-							if name:lower():match(search) then
+							if name:lower():sub(1, size) == search then
 								local off = #name - size
 								if off >= 0 and off < distance then
 									bestID, bestName = id, name

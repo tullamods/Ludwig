@@ -1,5 +1,5 @@
 <Bindings>
-	<Binding name="LUDWIG_SHOW" header="LUDWIG" category="ADDONS">
+	<Binding name="LUDWIG_SHOW" category="Ludwig">
 		if keystate == 'down' then
 			Ludwig:ToggleWindow()
 		end

@@ -1,5 +1,5 @@
 --[[
-	Copyright 2007-2025 João Cardoso
+	Copyright 2007-2026 João Cardoso
 	All Rights Reserved
 --]]
 
@@ -60,28 +60,24 @@ function Frame:Startup()
 
 	-- bottom filters
 	self.Quality = Ludwig.Dropdowns:CreateQuality(self)
-	self.Quality:SetPoint('BOTTOMLEFT', -10, -3)
+	self.Quality:SetPoint('BOTTOMLEFT', 2,2)
+	self.Quality:SetWidth(110)
+
 	self.Category = Ludwig.Dropdowns:CreateCategory(self)
-	self.Category:SetPoint('BOTTOMRIGHT', 10, -3)
+	self.Category:SetPoint('BOTTOMLEFT', self.Quality, 'BOTTOMRIGHT', 1,0)
+	self.Category:SetPoint('BOTTOMRIGHT', -2,2)
 
 	-- frame itself
-	self:SetAttribute('UIPanelLayout-defined', true)
-	self:SetAttribute('UIPanelLayout-enabled', true)
-	self:SetAttribute('UIPanelLayout-whileDead', true)
-	self:SetAttribute('UIPanelLayout-area', 'left')
-	self:SetAttribute('UIPanelLayout-pushable', 1)
-	self:SetAttribute('UIPanelLayout-xoffset', 0)
-
-	tinsert(UISpecialFrames, self:GetName())
-	wipe(Ludwig.Dropdowns)
-	wipe(Ludwig.Editboxes)
-
 	self.Startup = nil
-	self:SetSize(384, LE_EXPANSION_LEVEL_CURRENT > 4 and 530 or 425)
+	self:SetSize(384, LE_EXPANSION_LEVEL_CURRENT > 4 and 534 or 450)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:EnableMouse(true)
 	self:Hide()
+
+	RegisterUIPanel(self, {area = 'left', pushable = 3,	whileDead = 1})
+	Ludwig.Dropdowns = nil
+	Ludwig.Editboxes = nil
 end
 
 
@@ -211,14 +207,13 @@ function Frame:GetFilter(index)
 end
 
 function Frame:ClearFilters()
-	local name = self:GetName()
 	wipe(filters)
 
 	self.SearchBox:Default()
 	self.MinLevel:Default()
 	self.MaxLevel:Default()
-	self.Category:UpdateText()
-	self.Quality:UpdateText()
+	self.Category:GenerateMenu()
+	self.Quality:GenerateMenu()
 	self:Update(true)
 end
 

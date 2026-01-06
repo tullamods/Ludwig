@@ -1,10 +1,17 @@
 --[[
-	Copyright 2007-2025 João Cardoso
+	Copyright 2007-2026 João Cardoso
 	All Rights Reserved
 --]]
 
 local Dropdowns = Ludwig:NewModule('Dropdowns')
 local C = LibStub('C_Everywhere').Item
+
+local function create(parent, generator, translator)
+	local button = CreateFrame('DropdownButton', nil, parent, 'WowStyle1DropdownTemplate')
+	button:SetSelectionText(translator)
+	button:SetupMenu(generator)
+	return button
+end
 
 local function compare(a, b)
 	if a == b then
@@ -21,137 +28,69 @@ local function compare(a, b)
 end
 
 
---[[ Common ]]--
-
-function Dropdowns:Create(name, width, initialize, onclick, getlabel, parent)
-	local drop = CreateFrame('Frame', '$parent'..name, parent, 'UIDropDownMenuTemplate')
-	drop.UpdateText = self.UpdateText
-	drop.AddItem = self.AddItem
-	drop.OnClick = self.OnClick
-
-	drop.getlabel = getlabel
-	drop.onclick = onclick
-
-	UIDropDownMenu_Initialize(drop, initialize)
-	UIDropDownMenu_SetWidth(drop, width)
-	drop:UpdateText()
-
-	return drop
-end
-
-function Dropdowns:UpdateText()
-	_G[self:GetName() .. 'Text']:SetText(self:getlabel())
-end
-
-function Dropdowns:AddItem(text, value, selection, arrow)
-	if text and text ~= '' then
-	  return UIDropDownMenu_AddButton({
-				func = self.OnClick,
-	      checked = compare(value, selection),
-	      hasArrow = arrow,
-	      text = text,
-	      arg1 = self,
-	      arg2 = value,
-	      value = value
-	  }, UIDROPDOWNMENU_MENU_LEVEL)
-	end
-end
-
-function Dropdowns:OnClick(self, ...)
-	self:onclick(...)
-	self:UpdateText()
-	CloseDropDownMenus()
-end
-
-
---[[ Category ]]--
-
-function Dropdowns:CreateCategory(parent)
-	local function init(self, level)
-		if not level then
-			return
-		end
-
-		local selection = parent:GetFilter('category')
-		local current = UIDROPDOWNMENU_MENU_VALUE or {}
-
-		if level == 1 then
-			self:AddItem(ALL, nil, selection)
-
-					for id = 0, 30 do
-						if Ludwig.Database:ClassExists(id) then
-							self:AddItem(C.GetItemClassInfo(id), {id}, selection, C.GetItemSubClassInfo(id, 0))
-						end
-					end
-			elseif level == 2 then
-				for id = 0, 30 do
-					if Ludwig.Database:ClassExists(current[1], id) then
-						local hasSlots = Ludwig.Database:HasEquipSlots(current[1], id)
-						self:AddItem(C.GetItemSubClassInfo(current[1], id), {current[1], id}, selection, hasSlots)
-					end
-				end
-			elseif level == 3 then
-				for slot = 1, 30 do
-					if Ludwig.Database:ClassExists(current[1], current[2], slot) then
-						self:AddItem(C.GetItemInventorySlotInfo(slot), {current[1], current[2], slot}, selection)
-					end
-				end
-		end
-	end
-
-	local function update(self)
-			local class = parent:GetFilter('category')
-			if not class then
-					return ALL
-			end
-
-			local text = C.GetItemClassInfo(class[1])
-			if #class >= 2 then
-				text = text .. ' - ' .. C.GetItemSubClassInfo(class[1], class[2])
-
-				if #class >= 3 then
-					text = text .. ' - ' .. C.GetItemInventorySlotInfo(class[3])
-				end
-			end
-
-			return text
-	end
-
-	local function select(self, values)
-		parent:SetFilter('category', values, true)
-	end
-
-	return self:Create('Category', 245, init, select, update, parent)
-end
-
-
---[[ Quality ]]--
+--[[ Public ]]--
 
 function Dropdowns:CreateQuality(parent)
-	local function init(self)
-		local quality = tonumber(parent:GetFilter('quality'))
-		self:AddItem(ALL, nil, quality)
+	local function menu(_, drop)
+		local setter = function(v) parent:SetFilter('quality', v, true); return MenuResponse.Refresh end
+		local getter = function(v) return v == tonumber(parent:GetFilter('quality')) end
+
+		drop:CreateRadio(ALL, getter, setter, nil)
 
 		for i = 0, #ITEM_QUALITY_COLORS do
 			local color = ITEM_QUALITY_COLORS[i]
 			local text = color.hex .. _G[('ITEM_QUALITY%d_DESC'):format(i)] .. '|r'
-		self:AddItem(text, i, quality)
+
+			drop:CreateRadio(text, getter, setter, i)
 		end
 	end
 
-	local function update(self)
+	local function translator()
 		local quality = parent:GetFilter('quality')
-		if quality then
-			local color = ITEM_QUALITY_COLORS[tonumber(quality)]
-			return color.hex .. _G[('ITEM_QUALITY%s_DESC'):format(quality)] .. '|r'
-		else
-			return ALL
+		local color = quality and ITEM_QUALITY_COLORS[tonumber(quality)]
+		return color and (color.hex .. _G[('ITEM_QUALITY%s_DESC'):format(quality)] .. '|r') or ALL
+	end
+
+	return create(parent, menu, translator)
+end
+
+function Dropdowns:CreateCategory(parent)
+	local function menu(_, drop)
+		local setter = function(v) parent:SetFilter('category', v, true); return MenuResponse.Refresh end
+		local getter = function(v) return compare(v, parent:GetFilter('category')) end
+
+		drop:CreateRadio(ALL, getter, setter, nil)
+
+		for i = 0, 30 do
+			if Ludwig.Database:ClassExists(i) then
+				local class = drop:CreateRadio(C.GetItemClassInfo(i), getter, setter, {i})
+
+				for j = 0, 30 do
+					if Ludwig.Database:ClassExists(i,j) then
+						local subclass = class:CreateRadio(C.GetItemSubClassInfo(i,j), getter, setter, {i,j})
+
+						for k = 1, 30 do
+							if Ludwig.Database:ClassExists(i,j,k) then
+								subclass:CreateRadio(C.GetItemInventorySlotInfo(k), getter, setter, {i,j,k})
+							end
+						end
+					end
+				end
+			end
 		end
 	end
 
-	local function select(self, i)
-		parent:SetFilter('quality', i, true)
+	local function translator()
+		local v = parent:GetFilter('category')
+		if v and #v > 0 then
+			local parts = {C.GetItemClassInfo(v[1])}
+			parts[2] = v[2] and C.GetItemSubClassInfo(v[1], v[2])
+			parts[3] = v[3] and C.GetItemInventorySlotInfo(v[3])
+
+			return table.concat(parts, ', ')
+		end
+		return ALL
 	end
 
-	return self:Create('Quality', 90, init, select, update, parent)
+	return create(parent, menu, translator)
 end

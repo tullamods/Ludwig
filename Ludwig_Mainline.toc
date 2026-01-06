@@ -6,6 +6,6 @@
 ## Author: Jaliborc & Tuller
 
 ## Interface: 120000, 110205
-## Version: 11.2.3
+## Version: 11.2.4
 
 Addons\Main\Main.xml

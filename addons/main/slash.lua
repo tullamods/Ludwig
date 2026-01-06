@@ -1,12 +1,12 @@
 --[[
-	Copyright 2007-2025 João Cardoso
+	Copyright 2007-2026 João Cardoso
 	All Rights Reserved
 --]]
 
 local ADDON, Addon = ...
 local L = Addon.Locals
 
-SlashCmdList['LudwigCOMMAND'] = function(msg, ...)
+SlashCmdList.Ludwig = function(msg, ...)
 	local cmd = (msg or ''):lower():match('([%w%s]+)')
 	if cmd then
 		local id = cmd:match('q?%s*(%d+)')
@@ -20,5 +20,5 @@ SlashCmdList['LudwigCOMMAND'] = function(msg, ...)
 	end
 end
 
-SLASH_LudwigCOMMAND1 = '/lw'
-SLASH_LudwigCOMMAND2 = '/ludwig'
+SLASH_Ludwig1 = '/lw'
+SLASH_Ludwig2 = '/ludwig'

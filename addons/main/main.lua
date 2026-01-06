@@ -1,5 +1,5 @@
 --[[
-	Copyright 2007-2025 João Cardoso
+	Copyright 2007-2026 João Cardoso
 	All Rights Reserved
 --]]
 
@@ -23,7 +23,6 @@ end
 function Addon:GetLink(id)
 	return select(2, C.Item.GetItemInfo(id))
 end
-
 
 
 --[[ Modules & Loading ]]--
