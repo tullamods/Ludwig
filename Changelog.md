@@ -1,3 +1,7 @@
+### 11.2.5
+* Added support for Burning Crusade Anniversary realms.
+* Retail: Added sound design to the window.
+
 ### 11.2.4
 * Improved performance of all searches.
 * Modernized the implementation of dropdown menus in the window. Their design now also matches the corresponding game version.

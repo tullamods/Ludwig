@@ -4,7 +4,7 @@
 ## Category: Collections
 ## Author: Jaliborc & Tuller
 
-## Interface: 120000, 110205, 50501, 40402, 30404, 20504, 11507
-## Version: 11.2.4
+## Interface: 120001, 110207, 50501, 40402, 30404, 20505, 11507
+## Version: 11.2.5
 
 Addons\Main\Main.xml

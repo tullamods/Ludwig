@@ -46,10 +46,10 @@
 				HandleModifiedItemClick(Ludwig:GetLink(self.id))
 			</OnClick>
 			<OnEnter>
-				PlaySound(SOUNDKIT.HOUSING_ITEM_HOVER)
 				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
 				GameTooltip:SetHyperlink(Ludwig:GetLink(self.id))
 				GameTooltip:Show()
+				PlaySound(286119)
 			</OnEnter>
 			<OnLeave>
 				GameTooltip:Hide()
