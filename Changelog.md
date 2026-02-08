@@ -1,3 +1,8 @@
+## 12.0 (unreleased)
+* Added StaleCheck-1.0.
+* Added support for Midnight servers.
+* Created small version of logo for the addon list.
+
 ### 11.2.5
 * Added support for Burning Crusade Anniversary realms.
 * Retail: Added sound design to the window.

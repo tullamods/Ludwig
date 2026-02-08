@@ -25,7 +25,7 @@ function Frame:Startup()
 	shade:SetAllPoints(backdrop)
 
 	local portrait = backdrop:GetParent():CreateTexture(nil, 'OVERLAY')
-	portrait:SetTexture('Interface/AddOns/Ludwig/Art/Gnomed')
+	portrait:SetTexture('Interface/AddOns/Ludwig/Art/gnomed')
 	portrait:SetPoint('BOTTOMLEFT', backdrop, off, off)
 	portrait:SetPoint('TOPRIGHT', backdrop, -off,-off)
 

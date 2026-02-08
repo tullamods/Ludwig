@@ -4,7 +4,8 @@
 ## Category: Collections
 ## Author: Jaliborc & Tuller
 
-## Interface: 120001, 110207, 50501, 40402, 30404, 20505, 11507
-## Version: 11.2.5
+## SavedVariables: Ludwig_Sets
+## Interface: 120001, 120000, 50501, 40402, 30404, 20505, 11507
+## Version: 12.0
 
 Addons\Main\Main.xml

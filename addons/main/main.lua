@@ -7,6 +7,11 @@ local ADDON, Addon = ...
 local C = LibStub('C_Everywhere')
 _G[ADDON] = Addon
 
+EventUtil.ContinueOnVariablesLoaded(function()
+	Ludwig_Sets = Ludwig_Sets or {}
+	LibStub('StaleCheck-1.0'):CheckForUpdates(ADDON, Ludwig_Sets, 'Interface/Addons/Ludwig/art/gnomed')
+end)
+
 
 --[[ Actions ]]--
 
