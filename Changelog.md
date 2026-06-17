@@ -1,4 +1,4 @@
-## 12.0 (unreleased)
+## 12.0
 * Added StaleCheck-1.0.
 * Added support for Midnight servers.
 * Created small version of logo for the addon list.

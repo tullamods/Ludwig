@@ -6,7 +6,7 @@
 ## Author: Jaliborc & Tuller
 
 ## SavedVariables: Ludwig_Sets
-## Interface: 120001, 120000
+## Interface: 120007
 ## Version: 12.0
 
 Addons\Main\Main.xml
