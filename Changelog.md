@@ -1,3 +1,6 @@
+## 12.1
+* Added support for 12.1 servers and the new classic TOC format.
+
 ## 12.0
 * Added StaleCheck-1.0.
 * Added support for Midnight servers.
