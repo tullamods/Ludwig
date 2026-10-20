@@ -58,7 +58,7 @@
 		<HighlightTexture file="Interface\QuestFrame\UI-QuestTitleHighlight" alphaMode="ADD"/>
 	</Button>
 
-	<Script file="Dropdowns.lua"/>
-	<Script file="Editboxes.lua"/>
-	<Script file="Frame.lua"/>
+	<Script file="dropdowns.lua"/>
+	<Script file="editboxes.lua"/>
+	<Script file="frame.lua"/>
 </Ui>
