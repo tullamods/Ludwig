@@ -46,9 +46,12 @@
 				HandleModifiedItemClick(Ludwig:GetLink(self.id))
 			</OnClick>
 			<OnEnter>
-				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
-				GameTooltip:SetHyperlink(Ludwig:GetLink(self.id))
-				GameTooltip:Show()
+				local link = Ludwig:GetLink(self.id)
+				if link then
+					GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+					GameTooltip:SetHyperlink(link)
+					GameTooltip:Show()
+				end
 				PlaySound(286119)
 			</OnEnter>
 			<OnLeave>
