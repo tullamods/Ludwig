@@ -1,3 +1,7 @@
+### 12.1.2
+* Data is now packed per game version AND locale, making database loading much faster.
+* Fixed error message that could appear when scrolling quickly and mouse-hovering items.
+
 ### 12.1.1
 * TOC Update
 
