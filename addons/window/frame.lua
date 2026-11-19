@@ -67,9 +67,23 @@ function Frame:Startup()
 	self.Category:SetPoint('BOTTOMLEFT', self.Quality, 'BOTTOMRIGHT', 1,0)
 	self.Category:SetPoint('BOTTOMRIGHT', -2,2)
 
+	-- title bar
+	local title = self.TitleContainer
+	title:SetMouseClickEnabled(true)
+	title:RegisterForDrag('LeftButton')
+	title:SetScript('OnDragStart', function()
+		self:StartMoving()
+	end)
+	title:SetScript('OnDragStop', function()
+		self:StopMovingOrSizing()
+	end)
+
 	-- frame itself
 	self.Startup = nil
 	self:SetSize(384, LE_EXPANSION_LEVEL_CURRENT > 4 and 534 or 450)
+	self:SetFrameStrata('HIGH')
+	self:SetMovable(true)
+	self:SetClampedToScreen(true)
 	self:SetScript('OnShow', self.OnShow)
 	self:SetScript('OnHide', self.OnHide)
 	self:EnableMouse(true)
