@@ -1,3 +1,9 @@
+### 12.1.3
+* Window can now be dragged around (by _ultrasn0w_).
+
+### 12.1.2-a
+* Automated item data update for TBC. Beep boop!
+
 ### 12.1.2
 * Data is now packed per game version AND locale, making database loading much faster.
 * Fixed error message that could appear when scrolling quickly and mouse-hovering items.
