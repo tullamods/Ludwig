@@ -1,3 +1,6 @@
+### 12.1.3-a
+* Automated item data update for TBC. Beep boop!
+
 ### 12.1.3
 * Window can now be dragged around (by _ultrasn0w_).
 
